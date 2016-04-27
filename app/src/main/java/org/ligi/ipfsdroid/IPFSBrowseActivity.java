@@ -1,12 +1,8 @@
 package org.ligi.ipfsdroid;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.webkit.WebView;
-import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,13 +19,16 @@ public class IPFSBrowseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
 
-        final String message = getIntent().getData().toString().replace("ipfs://","https://ipfs.io/ipfs/");
+        final String address = getIntent().getData().toString().replace("ipfs://", "");
 
-        webView.loadUrl(message);
+        webView.loadUrl("https://ipfs.io/ipfs/" + address);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(address);
+        }
     }
 }
