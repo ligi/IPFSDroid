@@ -1,6 +1,6 @@
 [![Build Status](https://snap-ci.com/ligi/IPFSDroid/branch/master/build_image)](https://snap-ci.com/ligi/IPFSDroid/branch/master)
 
-[![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browser.png)]
+![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browser.png)
 
 ### Android App for the The InterPlanetary File System(IPFS)
 
