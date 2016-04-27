@@ -1,0 +1,13 @@
+### Android App for the The InterPlanetary File System(IPFS)
+
+This App does not represent a full IPFS node yet! Think of it as a dependency injection for IPFS on android. Currently we use the centralized service ipfs.io so you can use ipfs on android - later this will be exchanged for a full-node for decentralisation but all things that use this app don't have to change/care.
+
+### Features:
+
+handles ipfs:// links and display content
+
+### Future features:
+
+* Content Provider
+* Document Provider
+
