@@ -9,7 +9,7 @@ This App does not represent a full IPFS node yet! Think of it as a dependency in
 
 ### Features:
 
-handles ipfs:// links and display content
+handles ipfs:// | ipns:// | fs://ipfs | fs://ipns links and display content
 
 ### Future features:
 
