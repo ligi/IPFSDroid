@@ -15,12 +15,14 @@ handles ipfs:// links and display content
 
 * Content Provider
 * Document Provider
-* 
+ 
 ![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browser.png)
+
+![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browse_ipns.png)
 
 
 
 ### Test links
 
-[http://ligi.de/ipfs/test.html](http://ligi.de/ipfs/test.html)
+[http://ligi.de/ipfs/example_links.html](http://ligi.de/ipfs/example_links.html)
 
