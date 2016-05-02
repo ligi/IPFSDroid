@@ -23,12 +23,12 @@ public class IPFSBrowseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        final String address = getIntent().getData().toString().replace("ipfs://", "");
-
-        webView.loadUrl("https://ipfs.io/ipfs/" + address);
+        final IPXSResource ipxsResource = new IPXSResource(getIntent().getData());
+        webView.loadUrl(ipxsResource.getIpfsioAddress());
+        webView.getSettings().setJavaScriptEnabled(false);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setSubtitle(address);
+            getSupportActionBar().setSubtitle(ipxsResource.toString());
         }
     }
 }

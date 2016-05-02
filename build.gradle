@@ -1,4 +1,10 @@
 buildscript {
+    ext {
+        kotlin_version = '1.0.1-2'
+        support_version = '23.2.1'
+        dagger_version = '2.2'
+    }
+
     repositories {
         jcenter()
         maven { url 'https://jitpack.io' }
@@ -6,6 +12,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.3.6'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // http://stackoverflow.com/a/33889117/322642
         classpath 'com.github.JakeWharton:sdk-manager-plugin:220bf7a88a7072df3ed16dc8466fb144f2817070'

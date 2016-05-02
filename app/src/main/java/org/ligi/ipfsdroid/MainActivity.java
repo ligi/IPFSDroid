@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.exampleButton)
     void onButtonClick() {
         final Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("http://ligi.de/ipfs/test.html"));
+        intent.setData(Uri.parse("http://ligi.de/ipfs/example_links.html"));
         startActivity(intent);
     }
 

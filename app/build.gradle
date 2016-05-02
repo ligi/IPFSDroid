@@ -1,6 +1,8 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'de.mobilej.unmock'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 23
@@ -13,6 +15,7 @@ android {
         versionCode 1
         versionName "0.1"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,7 +26,15 @@ android {
 
 dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.0.0'
+
     testCompile 'junit:junit:4.12'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile "com.android.support:support-annotations:23.3.0"
+
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.jakewharton:butterknife:8.0.0'
 }
