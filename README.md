@@ -5,7 +5,7 @@
 
 ### Android App for the The InterPlanetary File System(IPFS)
 
-This App does not represent a full IPFS node yet! Think of it as a dependency injection for IPFS on android. Currently we use the centralized service ipfs.io so you can use ipfs on android - later this will be exchanged for a full-node for decentralisation but all things that use this app don't have to change/care.
+This App does not represent a full IPFS node yet! It is currently mainly for developers who want to experiment with IPFS on Android. Think of it as a dependency injection for IPFS on Android. Currently we use the centralized service ipfs.io so you can use ipfs on android - later this will be exchanged for a full-node for decentralisation but all things that use this app don't have to change/care.
 
 ### Features:
 
@@ -15,7 +15,7 @@ handles ipfs:// | ipns:// | fs://ipfs | fs://ipns links and display content
 
 * Content Provider
 * Document Provider
- 
+
 ![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browser.png)
 
 ![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browse_ipns.png)
@@ -25,4 +25,3 @@ handles ipfs:// | ipns:// | fs://ipfs | fs://ipns links and display content
 ### Test links
 
 [http://ligi.de/ipfs/example_links.html](http://ligi.de/ipfs/example_links.html)
-
