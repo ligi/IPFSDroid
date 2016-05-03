@@ -13,7 +13,13 @@ class IPXSResource(uriToRewrite: Uri) {
     val address: String by lazy {
         val path = uriToRewrite.path
         when (uriToRewrite.scheme) {
-            "fs" -> path.substring(1)
+            "fs" -> {
+                if (uriToRewrite.host != null) {
+                    path.substring(1)
+                } else {
+                    TextUtils.join("/", uriToRewrite.pathSegments.subList(1, uriToRewrite.pathSegments.size))
+                }
+            }
             "ipfs", "ipns" -> uriToRewrite.schemeSpecificPart.substring(2)
             "http", "https" -> TextUtils.join("/", uriToRewrite.pathSegments.subList(1, uriToRewrite.pathSegments.size))
             else -> throw IllegalArgumentException("Could not resolve address for " + uriToRewrite.toString())
@@ -22,10 +28,10 @@ class IPXSResource(uriToRewrite: Uri) {
 
     val type: IPXSType by lazy {
         when (uriToRewrite.scheme) {
-            "fs" -> when (uriToRewrite.host.toLowerCase()) {
+            "fs" -> when (extractTypeStringFromFSURI(uriToRewrite)) {
                 "ipfs" -> IPXSType.IPFS
                 "ipns" -> IPXSType.IPNS
-                else -> throw IllegalArgumentException("When scheme is fs:// then it must follow with ipfs or ipns ")
+                else -> throw IllegalArgumentException("When scheme is fs:// then it must follow with ipfs or ipns but was " + extractTypeStringFromFSURI(uriToRewrite))
             }
             "ipfs" -> IPXSType.IPFS
             "ipns" -> IPXSType.IPNS
@@ -39,11 +45,18 @@ class IPXSResource(uriToRewrite: Uri) {
                     else -> throw IllegalArgumentException("cannot handle this ipfs.io url " + uriToRewrite.pathSegments[0])
                 }
             }
-            else -> throw IllegalArgumentException("sheme not supported")
+            else -> throw IllegalArgumentException("scheme not supported")
         }
 
 
+    }
 
+    private fun extractTypeStringFromFSURI(uriToRewrite: Uri): String {
+        if (uriToRewrite.host != null) {
+            return uriToRewrite.host.toLowerCase()
+        } else {
+            return uriToRewrite.pathSegments[0].replace("/", "")
+        }
     }
 
     val ipfsioAddress: String

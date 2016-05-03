@@ -46,21 +46,9 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                        android:host="ipns"
                         android:scheme="fs"/>
             </intent-filter>
 
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:host="ipfs"
-                        android:scheme="fs"/>
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

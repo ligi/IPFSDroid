@@ -57,6 +57,11 @@ public class IPXSResourceTest {
     }
 
     @Test
+    public void testAuthorityLessFSUriWorks() {
+        assertThat(new IPXSResource(Uri.parse("fs:/ipns/foo/bar")).toString()).isEqualTo("ipns:foo/bar");
+    }
+
+    @Test
     public void testIPFSIOUrlIsExtractedCorrectly() {
         assertThat(new IPXSResource(Uri.parse("http://ipfs.io/ipns/foo/bar")).toString()).isEqualTo("ipns:foo/bar");
     }
