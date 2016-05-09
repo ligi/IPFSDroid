@@ -20,13 +20,18 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.installButton)
     Button installButton;
 
-    @BindViews({R.id.versionButton,R.id.gcButton,R.id.ipfsInitButton})
+    @BindViews({R.id.versionButton,R.id.gcButton,R.id.ipfsInitButton,R.id.daemonButton})
     List<Button> actionButtons;
 
     @OnClick(R.id.installButton)
     void onInstallClick() {
         ipfsBinaryInstaller.copy();
         refresh();
+    }
+
+    @OnClick(R.id.daemonButton)
+    void onDaemonClick() {
+        startService(new Intent(this,IPFSDaemonService.class));
     }
 
     @OnClick(R.id.versionButton)

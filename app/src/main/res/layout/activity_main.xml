@@ -26,6 +26,13 @@
             />
 
     <Button
+            android:id="@+id/daemonButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="run Daemon"
+            />
+
+    <Button
             android:id="@+id/versionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
