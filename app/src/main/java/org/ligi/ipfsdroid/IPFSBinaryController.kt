@@ -17,7 +17,6 @@ class IPFSBinaryController(val context: Context) {
         } else {
             AlertDialog.Builder(context).setMessage("no supported ABIs").show()
         }
-
     }
 
     private fun doCopyForArch(s: String) {
@@ -28,7 +27,8 @@ class IPFSBinaryController(val context: Context) {
     }
 
     fun run(cmd: String): String {
-        val process = Runtime.getRuntime().exec(getFile().absolutePath + " " + cmd)
+        val env = arrayOf("IPFS_PATH="+File(context.filesDir,".ipfs").absoluteFile)
+        val process = Runtime.getRuntime().exec(getFile().absolutePath + " " + cmd,env)
 
         val err = process.errorStream.reader().readText()
 
