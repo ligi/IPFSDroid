@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.installButton)
     Button installButton;
 
-    @BindViews(R.id.version)
+    @BindViews({R.id.versionButton,R.id.gcButton,R.id.ipfsInitButton})
     List<Button> actionButtons;
 
     @OnClick(R.id.installButton)
@@ -29,9 +29,24 @@ public class MainActivity extends AppCompatActivity {
         refresh();
     }
 
-    @OnClick(R.id.version)
+    @OnClick(R.id.versionButton)
     void onVersionClick() {
         new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("version")).show();
+    }
+
+    @OnClick(R.id.ipfsInitButton)
+    void onInitClick() {
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("init")).show();
+    }
+
+    @OnClick(R.id.gcButton)
+    void onGCClick() {
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("repo gc")).show();
+    }
+
+    @OnClick(R.id.swarmPeersButton)
+    void onSwarmPeers() {
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("swarm peers")).show();
     }
 
     @OnClick(R.id.exampleButton)

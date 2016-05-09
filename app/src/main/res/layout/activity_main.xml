@@ -11,18 +11,48 @@
         android:orientation="vertical"
         tools:context="org.ligi.ipfsdroid.MainActivity">
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!! This is a playground for developers currently - not ment as a enduser product !"
+            android:gravity="center"
+            />
+
     <Button
             android:id="@+id/installButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Install"
+            android:text="Install IPFS"
             />
 
     <Button
-            android:id="@+id/version"
+            android:id="@+id/versionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Execute version command"
+            />
+
+    <Button
+            android:id="@+id/ipfsInitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ipfs init"
+            />
+
+
+    <Button
+            android:id="@+id/gcButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="repo gc"
+            />
+
+
+    <Button
+            android:id="@+id/swarmPeersButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="swarm peers"
             />
 
     <Button
