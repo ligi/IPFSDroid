@@ -34,6 +34,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
     compile "net.steamcrafted:load-toast:1.0.10"
+    compile "org.ligi:tracedroid:1.4"
 
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.jakewharton:butterknife:$butterknife_version"

@@ -12,6 +12,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.List;
+import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.installButton)
     Button installButton;
 
-    @BindViews({R.id.versionButton,R.id.gcButton,R.id.ipfsInitButton,R.id.daemonButton})
+    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton})
     List<Button> actionButtons;
 
     @OnClick(R.id.installButton)
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.daemonButton)
     void onDaemonClick() {
-        startService(new Intent(this,IPFSDaemonService.class));
+        startService(new Intent(this, IPFSDaemonService.class));
     }
 
     @OnClick(R.id.versionButton)
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this);
     }
 
     @Override
