@@ -10,9 +10,9 @@ class IPFSBinaryController(val context: Context) {
 
     fun copy() {
 
-        if (Build.SUPPORTED_ABIS.contains("x86")) {
+        if (Build.CPU_ABI.equals("x86")) {
             doCopyForArch("ipfs-android-16-386")
-        } else if (Build.SUPPORTED_ABIS.contains("armeabi")) {
+        } else if (Build.CPU_ABI.equals("armeabi")) {
             doCopyForArch("ipfs-android-16-arm")
         } else {
             AlertDialog.Builder(context).setMessage("no supported ABIs").show()
