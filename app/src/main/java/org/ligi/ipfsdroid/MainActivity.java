@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("swarm peers")).show();
     }
 
+    @OnClick(R.id.catReadmeButton)
+    void catReadmeButton() {
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("cat /ipfs/QmVtU7ths96fMgZ8YSZAbKghyieq7AjxNdcqyVzxTt3qVe/readme")).show();
+    }
+
     @OnClick(R.id.exampleButton)
     void onButtonClick() {
         final Intent intent = new Intent(Intent.ACTION_VIEW);

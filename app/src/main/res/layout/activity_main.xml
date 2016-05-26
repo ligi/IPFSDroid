@@ -54,12 +54,18 @@
             android:text="repo gc"
             />
 
-
     <Button
             android:id="@+id/swarmPeersButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="swarm peers"
+            />
+
+    <Button
+            android:id="@+id/catReadmeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cat README"
             />
 
     <Button
