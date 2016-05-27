@@ -16,7 +16,7 @@ import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 public class MainActivity extends AppCompatActivity {
 
-    private IPFSBinaryController ipfsBinaryInstaller;
+    private IPFSBinaryController ipfsBinaryController;
 
     @BindView(R.id.installButton)
     Button installButton;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.installButton)
     void onInstallClick() {
-        ipfsBinaryInstaller.copy();
+        ipfsBinaryController.copy();
         refresh();
     }
 
@@ -37,27 +37,27 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.versionButton)
     void onVersionClick() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("version")).show();
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("version")).show();
     }
 
     @OnClick(R.id.ipfsInitButton)
     void onInitClick() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("init")).show();
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("init")).show();
     }
 
     @OnClick(R.id.gcButton)
     void onGCClick() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("repo gc")).show();
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("repo gc")).show();
     }
 
     @OnClick(R.id.swarmPeersButton)
     void onSwarmPeers() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("swarm peers")).show();
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("swarm peers")).show();
     }
 
     @OnClick(R.id.catReadmeButton)
     void catReadmeButton() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryInstaller.run("cat /ipfs/QmVtU7ths96fMgZ8YSZAbKghyieq7AjxNdcqyVzxTt3qVe/readme")).show();
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("cat /ipfs/QmVtU7ths96fMgZ8YSZAbKghyieq7AjxNdcqyVzxTt3qVe/readme")).show();
     }
 
     @OnClick(R.id.exampleButton)
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ipfsBinaryInstaller = new IPFSBinaryController(this);
+        ipfsBinaryController = new IPFSBinaryController(this);
 
         setContentView(R.layout.activity_main);
 
@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refresh() {
-        installButton.setVisibility(ipfsBinaryInstaller.getFile().exists() ? View.GONE : View.VISIBLE);
+        installButton.setVisibility(ipfsBinaryController.getFile().exists() ? View.GONE : View.VISIBLE);
 
-        final int actionButtonsVisibility = ipfsBinaryInstaller.getFile().exists() ? View.VISIBLE : View.GONE;
+        final int actionButtonsVisibility = ipfsBinaryController.getFile().exists() ? View.VISIBLE : View.GONE;
 
         for (final Button actionButton : actionButtons) {
             actionButton.setVisibility(actionButtonsVisibility);
