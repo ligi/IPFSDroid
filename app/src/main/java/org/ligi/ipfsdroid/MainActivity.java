@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.installButton)
     Button installButton;
 
-    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton})
+    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton, R.id.swarmPeersButton , R.id.catReadmeButton})
     List<Button> actionButtons;
 
     @OnClick(R.id.installButton)
