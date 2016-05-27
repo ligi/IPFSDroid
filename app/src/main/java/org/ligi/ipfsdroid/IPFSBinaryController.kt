@@ -1,6 +1,5 @@
 package org.ligi.ipfsdroid
 
-import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
@@ -19,19 +18,7 @@ class IPFSBinaryController(val context: Context) {
     }
 
     private fun calculateFilename(): String? {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return calculateFilename21()
-        } else if (Build.CPU_ABI.equals("x86")) {
-            return "ipfs-android-16-386"
-        } else if (Build.CPU_ABI.startsWith("arm")) {
-            return "ipfs-android-16-arm"
-        }
-        return null
-    }
-
-    @TargetApi(21)
-    private fun calculateFilename21(): String? {
-        if (Build.CPU_ABI.equals("x86")) {
+        if (Build.CPU_ABI.startsWith("x86")) {
             return "ipfs-android-16-386"
         } else if (Build.CPU_ABI.startsWith("arm")) {
             return "ipfs-android-16-arm"
