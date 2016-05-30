@@ -38,5 +38,6 @@ dependencies {
     compile "org.ligi:tracedroid:1.4"
 
     compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:design:$support_version"
     compile "com.jakewharton:butterknife:$butterknife_version"
 }

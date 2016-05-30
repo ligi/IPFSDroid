@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -21,8 +22,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.installButton)
     Button installButton;
 
-    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton, R.id.swarmPeersButton , R.id.catReadmeButton})
-    List<Button> actionButtons;
+    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton, R.id.swarmPeersButton, R.id.catReadmeButton})
+    List<View> actionViews;
+
+    @BindView(R.id.commandEdit)
+    EditText commandEdit;
 
     @OnClick(R.id.installButton)
     void onInstallClick() {
@@ -35,29 +39,41 @@ public class MainActivity extends AppCompatActivity {
         startService(new Intent(this, IPFSDaemonService.class));
     }
 
+    @OnClick(R.id.addButton)
+    void onAdd() {
+        runCommandWithResultAlert(commandEdit.getText().toString());
+    }
+
     @OnClick(R.id.versionButton)
     void onVersionClick() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("version")).show();
+        final String command = "version";
+        runCommandWithResultAlert(command);
+    }
+
+    private void runCommandWithResultAlert(final String command) {
+        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run(command))
+                                     .setPositiveButton(android.R.string.ok,null)
+                                     .show();
     }
 
     @OnClick(R.id.ipfsInitButton)
     void onInitClick() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("init")).show();
+        runCommandWithResultAlert("init");
     }
 
     @OnClick(R.id.gcButton)
     void onGCClick() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("repo gc")).show();
+        runCommandWithResultAlert("repo gc");
     }
 
     @OnClick(R.id.swarmPeersButton)
     void onSwarmPeers() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("swarm peers")).show();
+        runCommandWithResultAlert("swarm peers");
     }
 
     @OnClick(R.id.catReadmeButton)
     void catReadmeButton() {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run("cat /ipfs/QmVtU7ths96fMgZ8YSZAbKghyieq7AjxNdcqyVzxTt3qVe/readme")).show();
+        runCommandWithResultAlert("cat /ipfs/QmVtU7ths96fMgZ8YSZAbKghyieq7AjxNdcqyVzxTt3qVe/readme");
     }
 
     @OnClick(R.id.exampleButton)
@@ -91,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
         final int actionButtonsVisibility = ipfsBinaryController.getFile().exists() ? View.VISIBLE : View.GONE;
 
-        for (final Button actionButton : actionButtons) {
+        for (final View actionButton : actionViews) {
             actionButton.setVisibility(actionButtonsVisibility);
         }
     }
