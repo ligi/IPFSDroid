@@ -83,7 +83,7 @@
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/addButton"
+                android:id="@+id/excecuteFreeCommand"
                 android:text="exec"/>
     </LinearLayout>
     <Button

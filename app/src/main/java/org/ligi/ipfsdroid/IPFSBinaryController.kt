@@ -1,8 +1,10 @@
 package org.ligi.ipfsdroid
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
+import android.os.Handler
 import java.io.File
 import java.io.FileOutputStream
 
@@ -37,6 +39,8 @@ class IPFSBinaryController(val context: Context) {
         val env = arrayOf("IPFS_PATH=" + File(context.filesDir, ".ipfs").absoluteFile)
         val process = Runtime.getRuntime().exec(getFile().absolutePath + " " + cmd, env)
 
+        process.waitFor()
+
         val err = process.errorStream.reader().readText()
 
         if (!err.isEmpty()) {
@@ -46,4 +50,24 @@ class IPFSBinaryController(val context: Context) {
     }
 
     fun getFile() = File(context.filesDir, "ipfs_bin")
+
+
+    fun runWithAlert(ctx: Context, command: String) {
+        val handler = Handler()
+        val progressDialog = ProgressDialog(ctx)
+        progressDialog.setMessage("executing ipfs " + command)
+        progressDialog.show();
+
+        Thread(Runnable {
+            val run = run(command)
+            handler.post {
+                progressDialog.dismiss()
+                AlertDialog.Builder(ctx)
+                        .setMessage(run)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show()
+            }
+        }).start()
+
+    }
 }

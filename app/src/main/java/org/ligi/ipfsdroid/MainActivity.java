@@ -3,7 +3,6 @@ package org.ligi.ipfsdroid;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,16 +12,18 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.List;
+import javax.inject.Inject;
 import org.ligi.tracedroid.sending.TraceDroidEmailSender;
 
 public class MainActivity extends AppCompatActivity {
 
-    private IPFSBinaryController ipfsBinaryController;
+    @Inject
+    IPFSBinaryController ipfsBinaryController;
 
     @BindView(R.id.installButton)
     Button installButton;
 
-    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton, R.id.swarmPeersButton, R.id.catReadmeButton})
+    @BindViews({R.id.versionButton, R.id.gcButton, R.id.ipfsInitButton, R.id.daemonButton, R.id.swarmPeersButton, R.id.catReadmeButton,R.id.commandEdit,R.id.excecuteFreeCommand})
     List<View> actionViews;
 
     @BindView(R.id.commandEdit)
@@ -39,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         startService(new Intent(this, IPFSDaemonService.class));
     }
 
-    @OnClick(R.id.addButton)
-    void onAdd() {
+    @OnClick(R.id.excecuteFreeCommand)
+    void onExec() {
         runCommandWithResultAlert(commandEdit.getText().toString());
     }
 
@@ -51,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void runCommandWithResultAlert(final String command) {
-        new AlertDialog.Builder(this).setMessage(ipfsBinaryController.run(command))
-                                     .setPositiveButton(android.R.string.ok,null)
-                                     .show();
+        ipfsBinaryController.runWithAlert(this, command);
     }
 
     @OnClick(R.id.ipfsInitButton)
@@ -87,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ipfsBinaryController = new IPFSBinaryController(this);
-
+        App.component().inject(this);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
