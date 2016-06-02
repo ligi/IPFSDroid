@@ -3,9 +3,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/pin"
-        android:title="pin"
-        app:showAsAction="ifRoom|withText"
-        android:icon="@drawable/ic_file_attachment"
+            android:id="@+id/pin"
+            android:title="pin"
+            app:showAsAction="ifRoom|withText"
+            android:icon="@drawable/ic_file_attachment"
             />
 </menu>

@@ -6,7 +6,9 @@ import javax.inject.Singleton;
 @Singleton
 @Component(modules = {AppModule.class})
 public interface AppComponent {
-    void inject(IPFSBrowseActivity ipfsBrowseActivity);
-
     void inject(MainActivity mainActivity);
+
+    void inject(AddIPFSContent addIPFSContent);
+
+    void inject(DetailsActivity detailsActivity);
 }

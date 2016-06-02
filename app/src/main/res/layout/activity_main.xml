@@ -4,10 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:padding="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
         tools:context="org.ligi.ipfsdroid.MainActivity">
 
@@ -18,12 +15,32 @@
             android:gravity="center"
             />
 
-    <Button
-            android:id="@+id/installButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Install IPFS"
-            />
+
+    <RadioGroup
+            android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+
+        <RadioButton
+                android:id="@+id/simpleRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simple ( only download/get functions via ipfs.io gw )"/>
+
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fullRadio"
+                android:text="Full node ( with add and pin - you need to download the binary )"/>
+
+        <Button
+                android:id="@+id/downloadIPFSButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Download full node binary"
+                />
+    </RadioGroup>
+
 
     <Button
             android:id="@+id/daemonButton"
@@ -33,63 +50,10 @@
             />
 
     <Button
-            android:id="@+id/versionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Execute version command"
-            />
-
-    <Button
-            android:id="@+id/ipfsInitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ipfs init"
-            />
-
-
-    <Button
-            android:id="@+id/gcButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="repo gc"
-            />
-
-    <Button
-            android:id="@+id/swarmPeersButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="swarm peers"
-            />
-
-    <Button
-            android:id="@+id/catReadmeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="cat README"
-            />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-        <android.support.design.widget.TextInputEditText
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:hint="enter command"
-                android:id="@+id/commandEdit"
-                android:layout_height="wrap_content"/>
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/excecuteFreeCommand"
-                android:text="exec"/>
-    </LinearLayout>
-    <Button
             android:id="@+id/exampleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Open test links in browser"
             />
+
 </LinearLayout>

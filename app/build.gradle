@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         applicationId "org.ligi.ipfsdroid"
-        minSdkVersion 10
-        targetSdkVersion 23
+        minSdkVersion 15
+        targetSdkVersion 22
         versionCode 4
         versionName "0.4"
         archivesBaseName = "IPFSDroid-$versionName"
@@ -23,11 +23,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        incremental true
+    }
+
+    lintOptions {
+        // for OKIO
+        warning 'InvalidPackage'
+    }
 }
 
 dependencies {
     apt "com.google.dagger:dagger-compiler:$dagger_version"
-    apt "com.jakewharton:butterknife-compiler:$butterknife_version"
 
     testCompile "junit:junit:4.12"
     testCompile "com.squareup.assertj:assertj-android:1.1.1"
@@ -41,7 +49,14 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
-    compile "com.jakewharton:butterknife:$butterknife_version"
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
+    compile 'com.squareup.moshi:moshi:1.2.0'
+
+    compile 'net.steamcrafted:load-toast:1.0.10'
+
+    compile 'com.github.ligi:ipfs-api-kotlin:0.7'
+
+    compile 'org.ligi:AXT:0.36'
 
     androidTestApt "com.google.dagger:dagger-compiler:$dagger_version"
 }
