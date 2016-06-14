@@ -12,8 +12,8 @@ android {
         applicationId "org.ligi.ipfsdroid"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 4
-        versionName "0.4"
+        versionCode 5
+        versionName "0.5"
         archivesBaseName = "IPFSDroid-$versionName"
     }
 
