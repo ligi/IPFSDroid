@@ -9,7 +9,12 @@ This App does not represent a full IPFS node yet! It is currently mainly for dev
 
 ### Features:
 
-handles ipfs:// | ipns:// | fs://ipfs | fs://ipns links and display content
+Handles fs:/ipfs and fs:/ipns links via intent-filters ( also the unrecommended ones work: ipfs:// | ipns:// | fs://ipfs | fs://ipns )
+Ability to share content with IPFS. This is possible from within the app and with the share-intent.
+
+### Developer Remarks:
+
+This app uses the [IPFS Kotlin API](https://github.com/ligi/ipfs-api-kotlin)
 
 ### Future features:
 
@@ -19,7 +24,6 @@ handles ipfs:// | ipns:// | fs://ipfs | fs://ipns links and display content
 ![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browser.png)
 
 ![](https://raw.githubusercontent.com/ligi/IPFSDroid/master/assets/screenshots/browse_ipns.png)
-
 
 
 ### Test links
