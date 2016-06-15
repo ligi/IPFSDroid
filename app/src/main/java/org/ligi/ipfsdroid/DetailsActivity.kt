@@ -2,6 +2,7 @@ package org.ligi.ipfsdroid
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.EditText
@@ -18,23 +19,14 @@ class DetailsActivity : AppCompatActivity() {
     @Inject
     lateinit var ipfs: IPFS
 
+    var running = true;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         App.component().inject(this)
         setContentView(R.layout.activity_details)
         title = "IPFSDroid Info"
-
-        Thread(Runnable {
-            val version = ipfs.info.version()
-            val bandWidth = ipfs.stats.bandWidth()
-
-            runOnUiThread {
-                versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
-                bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn} \nTotalOut: ${bandWidth.TotalOut}"+
-                "\nRateIn: ${bandWidth.RateIn}\nRateOut: ${bandWidth.RateOut}"
-            }
-        }).start()
 
         findViewById(R.id.addTextCommand)!!.setOnClickListener {
             val intent = Intent(this, AddIPFSContent::class.java)
@@ -56,6 +48,33 @@ class DetailsActivity : AppCompatActivity() {
             }).start()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startInfoRefresh()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        running = false
+    }
+
+    private fun startInfoRefresh() {
+        running = true
+        Thread(Runnable {
+            while (running) {
+                val version = ipfs.info.version()
+                val bandWidth = ipfs.stats.bandWidth()
+
+                runOnUiThread {
+                    versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
+                    bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn} \nTotalOut: ${bandWidth.TotalOut}" +
+                            "\nRateIn: ${bandWidth.RateIn}\nRateOut: ${bandWidth.RateOut}"
+                }
+                SystemClock.sleep(1000)
+            }
+        }).start()
     }
 
 }
