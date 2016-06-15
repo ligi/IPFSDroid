@@ -26,4 +26,10 @@ public class AppModule {
     IPFS provideIPFS() {
         return new IPFS();
     }
+
+    @Singleton
+    @Provides
+    State provideState() {
+        return new State();
+    }
 }

@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var ipfs: IPFS
 
+    @Inject
+    lateinit var state: State
+
     internal val fullRadioButton by lazy { findViewById(R.id.fullRadio) as RadioButton }
     internal val simpleRadioButton by lazy { findViewById(R.id.simpleRadio) as RadioButton }
     internal val downloadButton by lazy { findViewById(R.id.downloadIPFSButton) as Button }
@@ -76,7 +79,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        simpleRadioButton.isChecked = true
+        if (state.getMode() == IPFSConnectionMode.Simple) {
+            simpleRadioButton.isChecked = true
+        } else {
+            fullRadioButton.isChecked = true
+        }
+
+        simpleRadioButton.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.Simple) })
+        fullRadioButton.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.FullNode) })
+
         fullRadioButton.isEnabled = ipfsDaemon.isReady()
 
         daemonButton.visibility = if (ipfsDaemon.isReady()) View.VISIBLE else View.GONE
