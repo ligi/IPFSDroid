@@ -49,8 +49,6 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
-    compile 'com.squareup.okhttp3:okhttp:3.3.0'
-    compile 'com.squareup.moshi:moshi:1.2.0'
 
     compile 'net.steamcrafted:load-toast:1.0.10'
 
