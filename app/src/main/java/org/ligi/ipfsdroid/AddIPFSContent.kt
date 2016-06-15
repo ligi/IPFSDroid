@@ -15,6 +15,7 @@ import io.ipfs.kotlin.model.NamedHash
 import net.steamcrafted.loadtoast.LoadToast
 import org.ligi.axt.AXT
 import org.ligi.tracedroid.logging.Log
+import java.net.ConnectException
 import javax.inject.Inject
 
 class AddIPFSContent : AppCompatActivity() {
@@ -78,7 +79,11 @@ class AddIPFSContent : AppCompatActivity() {
         val show = LoadToast(this).show()
 
         Thread(Runnable {
-            addResult = callback()
+            try {
+                addResult = callback()
+            } catch ( e: ConnectException) {
+                addResult = null
+            }
             runOnUiThread {
                 val displayString: String
                 if (addResult == null) {
