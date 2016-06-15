@@ -60,6 +60,8 @@ class DetailsActivity : AppCompatActivity() {
         running = false
     }
 
+    fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
+
     private fun startInfoRefresh() {
         running = true
         Thread(Runnable {
@@ -69,8 +71,8 @@ class DetailsActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
-                    bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn} \nTotalOut: ${bandWidth.TotalOut}" +
-                            "\nRateIn: ${bandWidth.RateIn}\nRateOut: ${bandWidth.RateOut}"
+                    bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn} bytes \nTotalOut: ${bandWidth.TotalOut} bytes" +
+                            "\nRateIn: ${bandWidth.RateIn.format(2)} bytes/s\nRateOut: ${bandWidth.RateOut.format(2)} bytes/s"
                 }
                 SystemClock.sleep(1000)
             }
