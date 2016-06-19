@@ -6,12 +6,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Button
-import android.widget.RadioButton
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_main.fullRadio
+import kotlinx.android.synthetic.main.activity_main.simpleRadio
+import kotlinx.android.synthetic.main.activity_main.downloadIPFSButton
+import kotlinx.android.synthetic.main.activity_main.daemonButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,11 +25,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var state: State
 
-    internal val fullRadioButton by lazy { findViewById(R.id.fullRadio) as RadioButton }
-    internal val simpleRadioButton by lazy { findViewById(R.id.simpleRadio) as RadioButton }
-    internal val downloadButton by lazy { findViewById(R.id.downloadIPFSButton) as Button }
-    internal val daemonButton by lazy { findViewById(R.id.daemonButton) as Button }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         title = "IPFSDroid Setup"
 
-        downloadButton.setOnClickListener({
+        downloadIPFSButton.setOnClickListener({
             ipfsDaemon.download(this) {
                 refresh()
             }
@@ -80,17 +77,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun refresh() {
         if (state.getMode() == IPFSConnectionMode.Simple) {
-            simpleRadioButton.isChecked = true
+            simpleRadio.isChecked = true
         } else {
-            fullRadioButton.isChecked = true
+            simpleRadio.isChecked = true
         }
 
-        simpleRadioButton.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.Simple) })
-        fullRadioButton.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.FullNode) })
+        simpleRadio.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.Simple) })
+        fullRadio.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.FullNode) })
 
-        fullRadioButton.isEnabled = ipfsDaemon.isReady()
+        fullRadio.isEnabled = ipfsDaemon.isReady()
 
         daemonButton.visibility = if (ipfsDaemon.isReady()) View.VISIBLE else View.GONE
-        downloadButton.visibility = if (ipfsDaemon.isReady()) View.GONE else View.VISIBLE
+        downloadIPFSButton.visibility = if (ipfsDaemon.isReady()) View.GONE else View.VISIBLE
     }
 }

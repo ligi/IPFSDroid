@@ -11,13 +11,13 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/version"
+            android:id="@+id/versionTextView"
             />
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bandWidth"
+            android:id="@+id/bandWidthTextView"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             />

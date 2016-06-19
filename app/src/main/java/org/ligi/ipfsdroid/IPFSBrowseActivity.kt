@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import kotlinx.android.synthetic.main.activity_browse.*
 import net.steamcrafted.loadtoast.LoadToast
 
 class IPFSBrowseActivity : AppCompatActivity() {
-
-    internal val webView by lazy { findViewById(R.id.webView) as WebView }
 
     private var ipxsResource: IPXSResource? = null
 

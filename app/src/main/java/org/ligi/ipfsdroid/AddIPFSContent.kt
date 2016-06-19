@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import net.steamcrafted.loadtoast.LoadToast
@@ -17,13 +16,13 @@ import org.ligi.axt.AXT
 import org.ligi.tracedroid.logging.Log
 import java.net.ConnectException
 import javax.inject.Inject
+import  kotlinx.android.synthetic.main.activity_add.hashEditText
 
 class AddIPFSContent : AppCompatActivity() {
 
     @Inject
     lateinit var ipfs:IPFS
 
-    val hashText by lazy { findViewById(R.id.hash) as TextView }
     var addResult: NamedHash? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +52,7 @@ class AddIPFSContent : AppCompatActivity() {
                 val clip = ClipData.newPlainText("hash", addResult?.Hash);
                 clipboardManager.primaryClip = clip;
 
-                Snackbar.make(hashText, "copy " + addResult?.Hash, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(hashEditText, "copy " + addResult?.Hash, Snackbar.LENGTH_LONG).show()
                 return true
             }
         }
@@ -96,7 +95,7 @@ class AddIPFSContent : AppCompatActivity() {
 
                 Log.i(displayString)
 
-                hashText.text = displayString
+                hashEditText.text = displayString
 
             }
         }).start()

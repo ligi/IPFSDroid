@@ -1,8 +1,38 @@
+buildscript {
+    ext {
+        kotlin_version = '1.0.2'
+        support_version = '23.4.0'
+        butterknife_version = '8.0.1'
+        dagger_version = '2.4'
+    }
+
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.3.6'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+
+        // http://stackoverflow.com/a/33889117/322642
+        classpath 'com.github.JakeWharton:sdk-manager-plugin:220bf7a88a7072df3ed16dc8466fb144f2817070'
+    }
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 23

@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.widget.EditText
-import android.widget.TextView
 import io.ipfs.kotlin.IPFS
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_details.versionTextView
+import kotlinx.android.synthetic.main.activity_details.bandWidthTextView
+import kotlinx.android.synthetic.main.activity_details.textEdit
 
 class DetailsActivity : AppCompatActivity() {
 
-    val versionTextView by lazy { findViewById(R.id.version) as TextView }
-    val bandWidthTextView by lazy { findViewById(R.id.bandWidth) as TextView }
-    val textEdit by lazy { findViewById(R.id.textEdit) as EditText }
 
     @Inject
     lateinit var ipfs: IPFS
