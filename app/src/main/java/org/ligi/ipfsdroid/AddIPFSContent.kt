@@ -1,5 +1,8 @@
 package org.ligi.ipfsdroid
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
@@ -11,17 +14,20 @@ import android.view.Menu
 import android.view.MenuItem
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
+import kotlinx.android.synthetic.main.activity_add.*
 import net.steamcrafted.loadtoast.LoadToast
 import org.ligi.axt.AXT
 import org.ligi.tracedroid.logging.Log
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 import java.net.ConnectException
 import javax.inject.Inject
-import  kotlinx.android.synthetic.main.activity_add.hashEditText
 
+@RuntimePermissions
 class AddIPFSContent : AppCompatActivity() {
 
     @Inject
-    lateinit var ipfs:IPFS
+    lateinit var ipfs: IPFS
 
     var addResult: NamedHash? = null
 
@@ -35,9 +41,14 @@ class AddIPFSContent : AppCompatActivity() {
             if ("text/plain" == intent.type) {
                 handleSendText(intent) // Handle text being sent
             } else {
-                handleSendStream(intent) // Handle single image being sent
+                AddIPFSContentPermissionsDispatcher.handleSendStreamWithCheck(this, intent)
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        AddIPFSContentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,11 +77,14 @@ class AddIPFSContent : AppCompatActivity() {
         }
     }
 
-    internal fun handleSendStream(intent: Intent) {
+    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun handleSendStream(intent: Intent) {
         val imageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
         val file = AXT.at(imageUri).loadImage(this)
 
-        addWithUI { ipfs.add.file(file) }
+        addWithUI {
+            ipfs.add.file(file)
+        }
     }
 
     fun addWithUI(callback: () -> NamedHash) {
@@ -80,7 +94,7 @@ class AddIPFSContent : AppCompatActivity() {
         Thread(Runnable {
             try {
                 addResult = callback()
-            } catch ( e: ConnectException) {
+            } catch (e: ConnectException) {
                 addResult = null
             }
             runOnUiThread {
