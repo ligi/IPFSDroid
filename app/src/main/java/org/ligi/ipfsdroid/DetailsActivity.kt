@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.format.Formatter
 import io.ipfs.kotlin.IPFS
+import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_details.versionTextView
-import kotlinx.android.synthetic.main.activity_details.bandWidthTextView
-import kotlinx.android.synthetic.main.activity_details.textEdit
 
 class DetailsActivity : AppCompatActivity() {
-
 
     @Inject
     lateinit var ipfs: IPFS
@@ -58,7 +56,7 @@ class DetailsActivity : AppCompatActivity() {
         running = false
     }
 
-    fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
+    fun Long.formatSizeForHuman() = Formatter.formatFileSize(baseContext, this)
 
     private fun startInfoRefresh() {
         running = true
@@ -69,8 +67,11 @@ class DetailsActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
-                    bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn} bytes \nTotalOut: ${bandWidth.TotalOut} bytes" +
-                            "\nRateIn: ${bandWidth.RateIn.format(2)} bytes/s\nRateOut: ${bandWidth.RateOut.format(2)} bytes/s"
+
+                    bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn.toLong().formatSizeForHuman()}\n" +
+                            "TotalOut: ${bandWidth.TotalOut.toLong().formatSizeForHuman()}\n" +
+                            "RateIn: ${bandWidth.RateIn.toLong().formatSizeForHuman()}/s\n" +
+                            "RateOut: ${bandWidth.RateOut.toLong().formatSizeForHuman()}/s"
                 }
                 SystemClock.sleep(1000)
             }
