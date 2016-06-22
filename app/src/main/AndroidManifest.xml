@@ -25,6 +25,7 @@
         </activity>
 
         <activity android:name=".DetailsActivity"/>
+        <activity android:name=".PublishIPFSContent"/>
 
         <activity android:name=".AddIPFSContent">
             <intent-filter>

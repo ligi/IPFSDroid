@@ -1,46 +1,22 @@
 package org.ligi.ipfsdroid
 
 import android.Manifest
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.text.Html
-import android.text.method.LinkMovementMethod
-import android.view.Menu
-import android.view.MenuItem
 import io.ipfs.kotlin.IPFS
-import io.ipfs.kotlin.model.NamedHash
-import kotlinx.android.synthetic.main.activity_add.*
-import net.glxn.qrgen.android.QRCode
-import net.steamcrafted.loadtoast.LoadToast
 import okio.Okio
 import org.ligi.axt.AXT
-import org.ligi.tracedroid.logging.Log
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
-import java.net.ConnectException
-import javax.inject.Inject
 
 @RuntimePermissions
-class AddIPFSContent : AppCompatActivity() {
-
-    @Inject
-    lateinit var ipfs: IPFS
-
-    var addResult: NamedHash? = null
+class AddIPFSContent : HashTextAndBarcodeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.component().inject(this)
-        setContentView(R.layout.activity_add)
-
-        hashInfoText.movementMethod = LinkMovementMethod.getInstance()
         if (Intent.ACTION_SEND == intent.action) {
             if (intent.type != null && "text/plain" == intent.type) {
                 handleSendText(intent) // Handle text being sent
@@ -53,25 +29,6 @@ class AddIPFSContent : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         AddIPFSContentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.add, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
-            R.id.copy -> {
-                val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager;
-                val clip = ClipData.newPlainText("hash", addResult?.Hash);
-                clipboardManager.primaryClip = clip;
-
-                Snackbar.make(hashInfoText, "copy " + addResult?.Hash, Snackbar.LENGTH_LONG).show()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     internal fun handleSendText(intent: Intent) {
@@ -110,36 +67,11 @@ class AddIPFSContent : AppCompatActivity() {
         }
     }
 
-    fun addWithUI(callback: () -> NamedHash) {
-
-        val show = LoadToast(this).show()
-
-        Thread(Runnable {
-            try {
-                addResult = callback()
-            } catch (e: ConnectException) {
-                addResult = null
-            }
-            runOnUiThread {
-                val displayString: String
-                if (addResult == null) {
-                    show.error()
-                    displayString = "could not execute add ( daemon running? )"
-                } else {
-                    show.success()
-                    AXT.at(this@AddIPFSContent).startCommonIntent()
-                    displayString = "added <a href='fs:/ipfs/${addResult!!.Hash}'>/ipfs/${addResult!!.Hash}</a>"
-
-                    qr_src.setImageBitmap(QRCode.from("fs:/ipfs/${addResult!!.Hash}").bitmap())
-                }
-
-                Log.i(displayString)
-
-                hashInfoText.text = Html.fromHtml(displayString)
-
-            }
-        }).start()
-
+    override fun getSuccessDisplayHTML(): String {
+        return "added <a href='${getSuccessURL()}'>${getSuccessURL()}</a>"
     }
 
+    override fun getSuccessURL(): String {
+        return "fs:/ipfs/${addResult!!.Hash}"
+    }
 }

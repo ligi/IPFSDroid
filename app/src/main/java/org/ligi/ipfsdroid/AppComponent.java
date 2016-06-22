@@ -8,7 +8,8 @@ import javax.inject.Singleton;
 public interface AppComponent {
     void inject(MainActivity mainActivity);
 
-    void inject(AddIPFSContent addIPFSContent);
+    void inject(HashTextAndBarcodeActivity addIPFSContent);
 
     void inject(DetailsActivity detailsActivity);
+
 }
