@@ -8,12 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
+import kotlinx.android.synthetic.main.activity_main.*
+import org.ligi.axt.AXT
 import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_main.fullRadio
-import kotlinx.android.synthetic.main.activity_main.simpleRadio
-import kotlinx.android.synthetic.main.activity_main.downloadIPFSButton
-import kotlinx.android.synthetic.main.activity_main.daemonButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,12 +52,13 @@ class MainActivity : AppCompatActivity() {
                     try {
                         version = ipfs.info.version()
                     } catch (ignored: Exception) {
-
                     }
-
                 }
 
-                runOnUiThread { progressDialog.dismiss() }
+                runOnUiThread {
+                    progressDialog.dismiss()
+                    AXT.at(this@MainActivity).startCommonIntent().activityFromClass(DetailsActivity::class.java)
+                }
             }).start()
 
         })
