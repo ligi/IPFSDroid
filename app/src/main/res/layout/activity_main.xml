@@ -11,32 +11,31 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="!! This is a playground for developers currently - not ment as a enduser product !"
+            android:text="@string/warning_string"
             android:gravity="center"
             android:padding="16dp"
             android:textStyle="bold"
     />
 
-
     <Button
             android:id="@+id/downloadIPFSButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Download+Init full node binary for more functions like add / publish / .."
+            android:text="@string/button_download"
     />
 
     <Button
             android:id="@+id/daemonButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="run Daemon"
+            android:text="@string/button_run_daemon"
     />
 
     <Button
             android:id="@+id/exampleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Open test links in browser"
+            android:text="@string/button_open_test_links_in_browser"
     />
 
 </LinearLayout>
