@@ -1,11 +1,17 @@
 package org.ligi.ipfsdroid
 
+import android.annotation.TargetApi
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.format.Formatter
+import android.view.View
 import io.ipfs.kotlin.IPFS
 import kotlinx.android.synthetic.main.activity_details.*
 import javax.inject.Inject
@@ -16,6 +22,7 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var ipfs: IPFS
 
     var running = true;
+    val OPEN_FILE_READ_REQUEST_CODE = 1 ;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +30,12 @@ class DetailsActivity : AppCompatActivity() {
         App.component().inject(this)
         setContentView(R.layout.activity_details)
         title = "IPFSDroid Info"
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            wireAddFileFor19Plus()
+        } else {
+            addFile.visibility = View.GONE
+        }
 
         findViewById(R.id.addTextCommand)!!.setOnClickListener {
             val intent = Intent(this, AddIPFSContent::class.java)
@@ -44,6 +57,32 @@ class DetailsActivity : AppCompatActivity() {
             }).start()
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (requestCode == OPEN_FILE_READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (resultData != null) {
+                val targetIntent = Intent(this, AddIPFSContent::class.java)
+                targetIntent.action = Intent.ACTION_SEND
+                targetIntent.data = resultData.data
+                startActivity(targetIntent)
+            }
+        }
+    }
+
+    @TargetApi(19)
+    private fun wireAddFileFor19Plus() {
+        addFile.setOnClickListener({
+            try {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.type = "*/*"; // tried with octet stream - no use
+                startActivityForResult(intent, OPEN_FILE_READ_REQUEST_CODE);
+            } catch (e: ActivityNotFoundException) {
+                Snackbar.make(addFile, "Unavailable", Snackbar.LENGTH_LONG).show();
+            }
+        })
     }
 
     override fun onResume() {

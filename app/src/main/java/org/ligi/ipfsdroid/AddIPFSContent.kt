@@ -1,8 +1,6 @@
 package org.ligi.ipfsdroid
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
@@ -16,10 +14,12 @@ import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import kotlinx.android.synthetic.main.activity_add.*
 import net.steamcrafted.loadtoast.LoadToast
+import okio.Okio
 import org.ligi.axt.AXT
 import org.ligi.tracedroid.logging.Log
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
+import java.io.File
 import java.net.ConnectException
 import javax.inject.Inject
 
@@ -37,8 +37,8 @@ class AddIPFSContent : AppCompatActivity() {
         App.component().inject(this)
         setContentView(R.layout.activity_add)
 
-        if (Intent.ACTION_SEND == intent.action && intent.type != null) {
-            if ("text/plain" == intent.type) {
+        if (Intent.ACTION_SEND == intent.action) {
+            if (intent.type != null && "text/plain" == intent.type) {
                 handleSendText(intent) // Handle text being sent
             } else {
                 AddIPFSContentPermissionsDispatcher.handleSendStreamWithCheck(this, intent)
@@ -79,11 +79,30 @@ class AddIPFSContent : AppCompatActivity() {
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun handleSendStream(intent: Intent) {
-        val imageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-        val file = AXT.at(imageUri).loadImage(this)
+        var uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+
+        if (uri == null) {
+            uri = intent.data
+        }
+
+        val inputStreamWithSource = InputStreamProvider.fromURI(this, uri)
+
+        var createTempFile = File.createTempFile("import", null, cacheDir)
+
+        if (inputStreamWithSource != null) {
+            val sink = Okio.buffer(Okio.sink(createTempFile))
+
+            val buffer = Okio.source(inputStreamWithSource.inputStream)
+            sink.writeAll(buffer)
+            sink.close()
+        }
+
+        if (inputStreamWithSource == null || !createTempFile.exists()) {
+            createTempFile = AXT.at(uri).loadImage(this)
+        }
 
         addWithUI {
-            ipfs.add.file(file)
+            ipfs.add.file(createTempFile)
         }
     }
 

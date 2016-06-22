@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/versionTextView"
-            />
+    />
 
     <TextView
             android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
             android:id="@+id/bandWidthTextView"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            />
+    />
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -41,12 +41,20 @@
                 android:layout_height="wrap_content"/>
     </LinearLayout>
 
+
+    <Button
+            android:id="@+id/addFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="add File"
+    />
+
     <Button
             android:id="@+id/gcButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="repo gc"
-            />
+    />
 
 
 </LinearLayout>

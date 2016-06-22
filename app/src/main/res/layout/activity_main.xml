@@ -41,7 +41,6 @@
                 />
     </RadioGroup>
 
-
     <Button
             android:id="@+id/daemonButton"
             android:layout_width="wrap_content"
