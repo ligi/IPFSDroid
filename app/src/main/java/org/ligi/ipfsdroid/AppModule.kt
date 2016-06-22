@@ -25,9 +25,4 @@ class AppModule(private val app: App) {
         return IPFS(okHttpClient = providedOkHttp)
     }
 
-    @Singleton
-    @Provides
-    internal fun provideState(): State {
-        return State()
-    }
 }

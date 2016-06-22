@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var ipfs: IPFS
 
-    @Inject
-    lateinit var state: State
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,17 +72,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        if (state.getMode() == IPFSConnectionMode.Simple) {
-            simpleRadio.isChecked = true
-        } else {
-            simpleRadio.isChecked = true
-        }
-
-        simpleRadio.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.Simple) })
-        fullRadio.setOnCheckedChangeListener({ compoundButton, checked -> if (checked) state.setByMode(IPFSConnectionMode.FullNode) })
-
-        fullRadio.isEnabled = ipfsDaemon.isReady()
-
         daemonButton.visibility = if (ipfsDaemon.isReady()) View.VISIBLE else View.GONE
         downloadIPFSButton.visibility = if (ipfsDaemon.isReady()) View.GONE else View.VISIBLE
     }

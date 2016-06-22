@@ -13,46 +13,30 @@
             android:layout_height="wrap_content"
             android:text="!! This is a playground for developers currently - not ment as a enduser product !"
             android:gravity="center"
-            />
+            android:padding="16dp"
+            android:textStyle="bold"
+    />
 
 
-    <RadioGroup
-            android:layout_width="wrap_content" android:layout_height="wrap_content">
-
-
-        <RadioButton
-                android:id="@+id/simpleRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Simple ( only download/get functions via ipfs.io gw )"/>
-
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fullRadio"
-                android:text="Full node ( with add and pin - you need to download the binary )"/>
-
-        <Button
-                android:id="@+id/downloadIPFSButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Download full node binary"
-                />
-    </RadioGroup>
+    <Button
+            android:id="@+id/downloadIPFSButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Download+Init full node binary for more functions like add / publish / .."
+    />
 
     <Button
             android:id="@+id/daemonButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="run Daemon"
-            />
+    />
 
     <Button
             android:id="@+id/exampleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Open test links in browser"
-            />
+    />
 
 </LinearLayout>
