@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuItem
 import io.ipfs.kotlin.IPFS
@@ -37,6 +39,7 @@ class AddIPFSContent : AppCompatActivity() {
         App.component().inject(this)
         setContentView(R.layout.activity_add)
 
+        hashEditText.movementMethod = LinkMovementMethod.getInstance()
         if (Intent.ACTION_SEND == intent.action) {
             if (intent.type != null && "text/plain" == intent.type) {
                 handleSendText(intent) // Handle text being sent
@@ -123,12 +126,13 @@ class AddIPFSContent : AppCompatActivity() {
                     displayString = "could not execute add ( daemon running? )"
                 } else {
                     show.success()
-                    displayString = "added /ipfs/" + addResult!!.Hash
+                    AXT.at(this@AddIPFSContent).startCommonIntent()
+                    displayString = "added <a href='fs:/ipfs/${addResult!!.Hash}'>/ipfs/${addResult!!.Hash}</a>"
                 }
 
                 Log.i(displayString)
 
-                hashEditText.text = displayString
+                hashEditText.text = Html.fromHtml(displayString)
 
             }
         }).start()
