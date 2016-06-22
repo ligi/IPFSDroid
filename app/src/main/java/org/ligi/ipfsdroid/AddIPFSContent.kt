@@ -15,6 +15,7 @@ import android.view.MenuItem
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import kotlinx.android.synthetic.main.activity_add.*
+import net.glxn.qrgen.android.QRCode
 import net.steamcrafted.loadtoast.LoadToast
 import okio.Okio
 import org.ligi.axt.AXT
@@ -39,7 +40,7 @@ class AddIPFSContent : AppCompatActivity() {
         App.component().inject(this)
         setContentView(R.layout.activity_add)
 
-        hashEditText.movementMethod = LinkMovementMethod.getInstance()
+        hashInfoText.movementMethod = LinkMovementMethod.getInstance()
         if (Intent.ACTION_SEND == intent.action) {
             if (intent.type != null && "text/plain" == intent.type) {
                 handleSendText(intent) // Handle text being sent
@@ -66,7 +67,7 @@ class AddIPFSContent : AppCompatActivity() {
                 val clip = ClipData.newPlainText("hash", addResult?.Hash);
                 clipboardManager.primaryClip = clip;
 
-                Snackbar.make(hashEditText, "copy " + addResult?.Hash, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(hashInfoText, "copy " + addResult?.Hash, Snackbar.LENGTH_LONG).show()
                 return true
             }
         }
@@ -128,11 +129,13 @@ class AddIPFSContent : AppCompatActivity() {
                     show.success()
                     AXT.at(this@AddIPFSContent).startCommonIntent()
                     displayString = "added <a href='fs:/ipfs/${addResult!!.Hash}'>/ipfs/${addResult!!.Hash}</a>"
+
+                    qr_src.setImageBitmap(QRCode.from("fs:/ipfs/${addResult!!.Hash}").bitmap())
                 }
 
                 Log.i(displayString)
 
-                hashEditText.text = Html.fromHtml(displayString)
+                hashInfoText.text = Html.fromHtml(displayString)
 
             }
         }).start()

@@ -89,6 +89,8 @@ dependencies {
 
     compile 'org.ligi:AXT:0.36'
 
+    compile 'com.github.kenglxn.QRGen:android:2.2.0'
+
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 }
 
