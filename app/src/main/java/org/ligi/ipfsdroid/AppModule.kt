@@ -14,6 +14,7 @@ class AppModule(private val app: App) {
     @Provides
     internal fun proviceOkhttp(): OkHttpClient {
         val builder = OkHttpClient.Builder()
+        // some commands can take very long ( like IPNS publish )
         builder.connectTimeout(1000, TimeUnit.SECONDS)
         builder.readTimeout(1000, TimeUnit.SECONDS)
         return builder.build()
