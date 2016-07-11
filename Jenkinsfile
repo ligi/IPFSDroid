@@ -3,7 +3,7 @@
  checkout scm
 
  stage "build"
- sh "./gradlew clean build"
+ sh "./gradlew build"
 
  stage "assemble release"
  sh "./gradlew clean assembleRelease"
