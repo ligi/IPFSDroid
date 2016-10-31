@@ -20,15 +20,11 @@ class IPFSDaemon(val context: Context) {
         return File(getRepoPath(), "version").exists()
     }
 
-    private fun getBinaryHashByABI(abi: String): String? {
-        if (abi.startsWith("x86")) {
-            return "QmZp3wZU4MsU53P8isK5rVCcEdiSig2xdSzxJSEBgAw3Kg"
-        } else if (abi.startsWith("arm")) {
-            return "QmRMHb4Vhv8LtYqw8RkDgkdZYxJHfrfFeQaHbNUqJYmdF2"
-        }
-        return null
+    private fun getBinaryHashByABI(abi: String) = when {
+        abi.startsWith("x86") -> "QmZp3wZU4MsU53P8isK5rVCcEdiSig2xdSzxJSEBgAw3Kg"
+        abi.startsWith("arm") -> "QmRMHb4Vhv8LtYqw8RkDgkdZYxJHfrfFeQaHbNUqJYmdF2"
+        else -> null
     }
-
 
     fun download(activity: Activity, f: () -> Unit) {
         val progressDialog = ProgressDialog(context)
@@ -77,15 +73,15 @@ class IPFSDaemon(val context: Context) {
         val okHttpClient = OkHttpClient.Builder().readTimeout(200, TimeUnit.SECONDS).build()
         val responseBody = okHttpClient.newCall(build).execute().body()
 
-        val source = responseBody.source();
+        val source = responseBody.source()
 
         val buffer = Okio.buffer(Okio.sink(getBinaryFile()))
 
-        var i = 0L;
+        var i = 0L
 
         while (!source.exhausted()) {
 
-            i += source.read(buffer.buffer(), 1024);
+            i += source.read(buffer.buffer(), 1024)
 
             activity.runOnUiThread {
                 val s = i / 1024
