@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        findViewById(R.id.exampleButton)!!.setOnClickListener({
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("http://ligi.de/ipfs/example_links2.html")
-            startActivity(intent)
+        exampleButton.setOnClickListener({
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("http://ligi.de/ipfs/example_links2.html")
+            })
         })
 
         TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this)
