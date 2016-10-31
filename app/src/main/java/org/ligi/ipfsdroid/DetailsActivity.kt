@@ -37,7 +37,7 @@ class DetailsActivity : AppCompatActivity() {
             addFile.visibility = View.GONE
         }
 
-        findViewById(R.id.addTextCommand)!!.setOnClickListener {
+        addTextCommand.setOnClickListener {
             val intent = Intent(this, AddIPFSContent::class.java)
             intent.action = Intent.ACTION_SEND
             intent.type = "text/plain"
@@ -45,7 +45,7 @@ class DetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        findViewById(R.id.gcButton)!!.setOnClickListener {
+        gcButton.setOnClickListener {
             Thread(Runnable {
                 val gc = ipfs.repo.gc()
 
