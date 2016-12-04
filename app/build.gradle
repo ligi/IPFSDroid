@@ -87,6 +87,7 @@ dependencies {
     compile 'net.steamcrafted:load-toast:1.0.10'
 
     compile 'com.github.ligi:ipfs-api-kotlin:0.8'
+    compile 'com.github.ligi:KAXT:0.9'
 
     compile 'com.github.kenglxn.QRGen:android:2.2.0'
 
