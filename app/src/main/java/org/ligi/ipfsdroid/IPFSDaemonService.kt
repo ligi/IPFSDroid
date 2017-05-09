@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat
 class IPFSDaemonService : IntentService("IPFSDaemonService") {
 
     private var nManager: NotificationManager? = null
+    private var daemon: Process? = null
     internal var NOTIFICATION_ID = 12345
 
     override fun onHandleIntent(intent: Intent) {
@@ -27,13 +28,15 @@ class IPFSDaemonService : IntentService("IPFSDaemonService") {
         nManager!!.notify(NOTIFICATION_ID, builder.build())
 
         try {
-            IPFSDaemon(baseContext).run("daemon").waitFor()
+            daemon = IPFSDaemon(baseContext).run("daemon")
+            daemon!!.waitFor()
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
     }
 
     override fun onDestroy() {
+        daemon!!.destroy()
         super.onDestroy()
         nManager?.cancel(NOTIFICATION_ID)
     }
