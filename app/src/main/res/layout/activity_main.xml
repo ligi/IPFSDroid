@@ -32,6 +32,13 @@
     />
 
     <Button
+            android:id="@+id/daemonStopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_stop_daemon"
+    />
+
+    <Button
             android:id="@+id/exampleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
