@@ -20,8 +20,11 @@ class IPFSDaemonService : IntentService("IPFSDaemonService") {
 
         val targetIntent = Intent(this, DetailsActivity::class.java)
         val pIntent = PendingIntent.getActivity(this, 0, targetIntent, 0)
-        val builder = NotificationCompat.Builder(this).setOngoing(true).setSmallIcon(R.drawable.notification).setContentTitle("IPFS Daemon").setContentText("The daemon is running")//.addAction(R.drawable.ic_navigation_check, "exit", pendingExit)
-
+        val builder = NotificationCompat.Builder(this).setOngoing(true)
+                .setSmallIcon(R.drawable.notification)
+                .setContentTitle("IPFS Daemon")
+                .setContentText("The daemon is running")
+                .addAction(android.R.drawable.ic_menu_close_clear_cancel, "exit", pendingExit)
 
         builder.setContentIntent(pIntent)
         nManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -29,6 +32,7 @@ class IPFSDaemonService : IntentService("IPFSDaemonService") {
 
         try {
             daemon = IPFSDaemon(baseContext).run("daemon")
+            State.isDaemonRunning = true
             daemon!!.waitFor()
         } catch (e: InterruptedException) {
             e.printStackTrace()
@@ -38,13 +42,14 @@ class IPFSDaemonService : IntentService("IPFSDaemonService") {
     override fun onDestroy() {
         daemon!!.destroy()
         super.onDestroy()
+        State.isDaemonRunning = false
         nManager?.cancel(NOTIFICATION_ID)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
         if (nManager != null && action != null && action == "STOP") {
-            // TODO actually stop the daemon https://github.com/ipfs/faq/issues/39
+            stopSelf()
         }
         return super.onStartCommand(intent, flags, startId)
     }

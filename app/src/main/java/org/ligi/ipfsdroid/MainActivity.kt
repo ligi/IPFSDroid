@@ -16,7 +16,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     private val ipfsDaemon = IPFSDaemon(this)
-    private var daemonRunning = false
 
     @Inject
     lateinit var ipfs: IPFS
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             startService(Intent(this, IPFSDaemonService::class.java))
 
             daemonButton.visibility = View.GONE
-            daemonRunning = true
+            State.isDaemonRunning = true
 
             val progressDialog = ProgressDialog(this)
             progressDialog.setMessage("starting daemon")
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         daemonStopButton.setOnClickListener({
             stopService(Intent(this, IPFSDaemonService::class.java))
-            daemonRunning = false
+            State.isDaemonRunning = false
 
             refresh()
         })
@@ -81,9 +80,14 @@ class MainActivity : AppCompatActivity() {
         refresh()
     }
 
+    override fun onResume() {
+        super.onResume()
+        refresh()
+    }
+
     private fun refresh() {
-        daemonButton.visibility = if (ipfsDaemon.isReady() && !daemonRunning) View.VISIBLE else View.GONE
-        daemonStopButton.visibility = if (ipfsDaemon.isReady() && daemonRunning) View.VISIBLE else View.GONE
+        daemonButton.visibility = if (ipfsDaemon.isReady() && !State.isDaemonRunning) View.VISIBLE else View.GONE
+        daemonStopButton.visibility = if (ipfsDaemon.isReady() && State.isDaemonRunning) View.VISIBLE else View.GONE
         downloadIPFSButton.visibility = if (ipfsDaemon.isReady()) View.GONE else View.VISIBLE
     }
 }

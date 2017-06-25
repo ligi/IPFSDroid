@@ -14,6 +14,7 @@ import android.text.format.Formatter
 import android.view.View
 import io.ipfs.kotlin.IPFS
 import kotlinx.android.synthetic.main.activity_details.*
+import java.net.ConnectException
 import javax.inject.Inject
 
 class DetailsActivity : AppCompatActivity() {
@@ -101,16 +102,22 @@ class DetailsActivity : AppCompatActivity() {
         running = true
         Thread(Runnable {
             while (running) {
-                val version = ipfs.info.version()
-                val bandWidth = ipfs.stats.bandWidth()
+                try {
+                    val version = ipfs.info.version()
+                    val bandWidth = ipfs.stats.bandWidth()
 
-                runOnUiThread {
-                    versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
+                    runOnUiThread {
+                        versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
 
-                    bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn.toLong().formatSizeForHuman()}\n" +
-                            "TotalOut: ${bandWidth.TotalOut.toLong().formatSizeForHuman()}\n" +
-                            "RateIn: ${bandWidth.RateIn.toLong().formatSizeForHuman()}/s\n" +
-                            "RateOut: ${bandWidth.RateOut.toLong().formatSizeForHuman()}/s"
+                        bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn.toLong().formatSizeForHuman()}\n" +
+                                "TotalOut: ${bandWidth.TotalOut.toLong().formatSizeForHuman()}\n" +
+                                "RateIn: ${bandWidth.RateIn.toLong().formatSizeForHuman()}/s\n" +
+                                "RateOut: ${bandWidth.RateOut.toLong().formatSizeForHuman()}/s"
+                    }
+                } catch (e: ConnectException) {
+                    runOnUiThread {
+                        finish()
+                    }
                 }
                 SystemClock.sleep(1000)
             }
