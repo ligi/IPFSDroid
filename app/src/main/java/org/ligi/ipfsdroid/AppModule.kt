@@ -21,8 +21,7 @@ class AppModule(private val app: App) {
 
     @Singleton
     @Provides
-    internal fun provideIPFS(providedOkHttp: OkHttpClient): IPFS {
-        return IPFS(okHttpClient = providedOkHttp)
-    }
+    internal fun provideIPFS(providedOkHttp: OkHttpClient)
+            = IPFS(okHttpClient = providedOkHttp)
 
 }

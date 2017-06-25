@@ -21,8 +21,8 @@ class DetailsActivity : AppCompatActivity() {
     @Inject
     lateinit var ipfs: IPFS
 
-    var running = true;
-    val OPEN_FILE_READ_REQUEST_CODE = 1 ;
+    var running = true
+    val OPEN_FILE_READ_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,12 +75,12 @@ class DetailsActivity : AppCompatActivity() {
     private fun wireAddFileFor19Plus() {
         addFile.setOnClickListener({
             try {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.type = "*/*"; // tried with octet stream - no use
-                startActivityForResult(intent, OPEN_FILE_READ_REQUEST_CODE);
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "*/*" // tried with octet stream - no use
+                startActivityForResult(intent, OPEN_FILE_READ_REQUEST_CODE)
             } catch (e: ActivityNotFoundException) {
-                Snackbar.make(addFile, "Unavailable", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(addFile, "Unavailable", Snackbar.LENGTH_LONG).show()
             }
         })
     }

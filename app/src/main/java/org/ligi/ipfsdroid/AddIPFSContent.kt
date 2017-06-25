@@ -67,11 +67,8 @@ class AddIPFSContent : HashTextAndBarcodeActivity() {
         }
     }
 
-    override fun getSuccessDisplayHTML(): String {
-        return "added <a href='${getSuccessURL()}'>${getSuccessURL()}</a>"
-    }
+    override fun getSuccessDisplayHTML()
+            = "added <a href='${getSuccessURL()}'>${getSuccessURL()}</a>"
 
-    override fun getSuccessURL(): String {
-        return "fs:/ipfs/${addResult!!.Hash}"
-    }
+    override fun getSuccessURL() = "fs:/ipfs/${addResult!!.Hash}"
 }

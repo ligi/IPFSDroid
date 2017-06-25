@@ -24,7 +24,7 @@ class IPFSBrowseActivity : AppCompatActivity() {
 
         val loadToast = LoadToast(this).show()
         ipxsResource = IPXSResource(intent.data)
-        webView.loadUrl(ipxsResource!!.ipfsioAddress)
+        webView.loadUrl(ipxsResource!!.ipfsioAddress())
         webView.settings.javaScriptEnabled = false
 
         webView.setWebViewClient(object : WebViewClient() {

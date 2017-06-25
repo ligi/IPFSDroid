@@ -15,23 +15,13 @@ object InputStreamProvider {
 
     class InputStreamWithSource(val source: String, val inputStream: InputStream)
 
-    fun fromURI(context: Context, uri: Uri): InputStreamWithSource? {
-        when (uri.scheme) {
-            "content" ->
-
-                return InputStreamProvider.fromContent(context, uri)
-
-            "http", "https" ->
-                // TODO check if SPDY should be here
-                return InputStreamProvider.fromOKHttp(uri)
-
-        // eg "file"
-            else -> return InputStreamProvider.getDefaultInputStreamForUri(uri)
-        }
-
+    fun fromURI(context: Context, uri: Uri) = when (uri.scheme) {
+        "content" -> fromContent(context, uri)
+        "http", "https" -> fromOKHttp(uri) // TODO check if SPDY should be here
+        else -> getDefaultInputStreamForUri(uri) // eg "file"
     }
 
-    fun fromOKHttp(uri: Uri): InputStreamWithSource? {
+    fun fromOKHttp(uri: Uri): InputStreamProvider.InputStreamWithSource? {
         try {
             val client = OkHttpClient()
             val url = URL(uri.toString())
@@ -41,7 +31,7 @@ object InputStreamProvider {
 
             val response = client.newCall(request).execute()
 
-            return InputStreamWithSource(uri.toString(), response.body().byteStream())
+            return InputStreamProvider.InputStreamWithSource(uri.toString(), response.body().byteStream())
         } catch (e: MalformedURLException) {
         } catch (e: IOException) {
         }
@@ -49,22 +39,16 @@ object InputStreamProvider {
         return null
     }
 
-    fun fromContent(ctx: Context, uri: Uri): InputStreamWithSource? {
-        try {
-            return InputStreamWithSource(uri.toString(), ctx.contentResolver.openInputStream(uri))
-        } catch (e: FileNotFoundException) {
-            return null
-        }
-
+    fun fromContent(ctx: Context, uri: Uri) = try {
+        InputStreamProvider.InputStreamWithSource(uri.toString(), ctx.contentResolver.openInputStream(uri))
+    } catch (e: FileNotFoundException) {
+        null
     }
 
-
-    fun getDefaultInputStreamForUri(uri: Uri): InputStreamWithSource? {
-        try {
-            return InputStreamWithSource(uri.toString(), BufferedInputStream(URL(uri.toString()).openStream(), 4096))
-        } catch (e: IOException) {
-            return null
-        }
-
+    fun getDefaultInputStreamForUri(uri: Uri) = try {
+        InputStreamProvider.InputStreamWithSource(uri.toString(), BufferedInputStream(URL(uri.toString()).openStream(), 4096))
+    } catch (e: IOException) {
+        null
     }
+
 }

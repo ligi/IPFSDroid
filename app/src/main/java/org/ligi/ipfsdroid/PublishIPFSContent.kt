@@ -18,12 +18,9 @@ class PublishIPFSContent : HashTextAndBarcodeActivity() {
         }
     }
 
-    override fun getSuccessDisplayHTML(): String {
-        return "published <a href='${getSuccessURL()}'>${getSuccessURL()}</a>"
-    }
+    override fun getSuccessDisplayHTML()
+            = "published <a href='${getSuccessURL()}'>${getSuccessURL()}</a>"
 
-    override fun getSuccessURL(): String {
-        return "fs:/ipns/${addResult!!.Hash}"
-    }
+    override fun getSuccessURL() = "fs:/ipns/${addResult!!.Hash}"
 
 }

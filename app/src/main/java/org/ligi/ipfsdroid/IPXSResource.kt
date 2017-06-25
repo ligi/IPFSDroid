@@ -47,22 +47,15 @@ class IPXSResource(uriToRewrite: Uri) {
             }
             else -> throw IllegalArgumentException("scheme not supported")
         }
-
-
     }
 
-    private fun extractTypeStringFromFSURI(uriToRewrite: Uri): String {
-        if (uriToRewrite.host != null) {
-            return uriToRewrite.host.toLowerCase()
-        } else {
-            return uriToRewrite.pathSegments[0].replace("/", "")
-        }
+    private fun extractTypeStringFromFSURI(uriToRewrite: Uri) = if (uriToRewrite.host != null) {
+        uriToRewrite.host.toLowerCase()
+    } else {
+        uriToRewrite.pathSegments[0].replace("/", "")
     }
 
-    val ipfsioAddress: String
-        get() = "https://ipfs.io/" + type.toString().toLowerCase() + "/" + address + "/"
+    fun ipfsioAddress() = "https://ipfs.io/" + type.toString().toLowerCase() + "/" + address + "/"
 
-    override fun toString(): String {
-        return type.toString().toLowerCase() + ":" + address
-    }
+    override fun toString() = type.toString().toLowerCase() + ":" + address
 }
