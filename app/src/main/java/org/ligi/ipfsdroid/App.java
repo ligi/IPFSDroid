@@ -1,7 +1,6 @@
 package org.ligi.ipfsdroid;
 
 import android.app.Application;
-import com.chibatching.kotpref.Kotpref;
 import org.ligi.tracedroid.TraceDroid;
 
 public class App extends Application {
@@ -11,7 +10,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Kotpref.INSTANCE.init(this);
         component = DaggerAppComponent.builder()
                                       .appModule(new AppModule(this))
                                       .build();
