@@ -70,24 +70,26 @@ class IPFSDaemon(val context: Context) {
 
         val okHttpClient = OkHttpClient.Builder().readTimeout(200, TimeUnit.SECONDS).build()
         val responseBody = okHttpClient.newCall(build).execute().body()
+        if (responseBody != null) {
+            val source = responseBody.source()
 
-        val source = responseBody.source();
+            val buffer = Okio.buffer(Okio.sink(getBinaryFile()))
 
-        val buffer = Okio.buffer(Okio.sink(getBinaryFile()))
+            var i = 0L
 
-        var i = 0L
+            while (!source.exhausted()) {
 
-        while (!source.exhausted()) {
+                i += source.read(buffer.buffer(), 1024)
 
-            i += source.read(buffer.buffer(), 1024)
-
-            activity.runOnUiThread {
-                val s = i / 1024
-                progressDialog.setMessage("$s kB")
+                activity.runOnUiThread {
+                    val s = i / 1024
+                    progressDialog.setMessage("$s kB")
+                }
             }
-        }
 
-        buffer.close()
+            buffer.close()
+            responseBody.close()
+        }
     }
 
 }

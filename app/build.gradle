@@ -80,7 +80,7 @@ dependencies {
 
     compile 'net.steamcrafted:load-toast:1.0.10'
 
-    compile 'com.github.ligi:ipfs-api-kotlin:0.8'
+    compile 'com.github.ligi:ipfs-api-kotlin:0.10'
 
     compile 'org.ligi:AXT:0.36'
 

@@ -31,7 +31,10 @@ object InputStreamProvider {
 
             val response = client.newCall(request).execute()
 
-            return InputStreamProvider.InputStreamWithSource(uri.toString(), response.body().byteStream())
+            val body = response.body()
+            if (body != null) {
+                return InputStreamProvider.InputStreamWithSource(uri.toString(), body.byteStream())
+            }
         } catch (e: MalformedURLException) {
         } catch (e: IOException) {
         }

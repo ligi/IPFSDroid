@@ -107,12 +107,16 @@ class DetailsActivity : AppCompatActivity() {
                     val bandWidth = ipfs.stats.bandWidth()
 
                     runOnUiThread {
-                        versionTextView.text = "Version: ${version.Version} \nRepo: ${version.Repo}"
+                        versionTextView.text = "Version: ${version?.Version} \nRepo: ${version?.Repo}"
 
-                        bandWidthTextView.text = "TotlalIn: ${bandWidth.TotalIn.toLong().formatSizeForHuman()}\n" +
-                                "TotalOut: ${bandWidth.TotalOut.toLong().formatSizeForHuman()}\n" +
-                                "RateIn: ${bandWidth.RateIn.toLong().formatSizeForHuman()}/s\n" +
-                                "RateOut: ${bandWidth.RateOut.toLong().formatSizeForHuman()}/s"
+                        bandWidthTextView.text = if (bandWidth != null) {
+                            "TotlalIn: ${bandWidth.TotalIn.toLong().formatSizeForHuman()}\n" +
+                                    "TotalOut: ${bandWidth.TotalOut.toLong().formatSizeForHuman()}\n" +
+                                    "RateIn: ${bandWidth.RateIn.toLong().formatSizeForHuman()}/s\n" +
+                                    "RateOut: ${bandWidth.RateOut.toLong().formatSizeForHuman()}/s"
+                        } else {
+                            " could not get information"
+                        }
                     }
                 } catch (e: ConnectException) {
                     runOnUiThread {
