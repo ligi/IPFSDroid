@@ -24,7 +24,7 @@ class IPFSDaemon(val context: Context) {
         else -> null
     }
 
-    fun download(activity: Activity, f: () -> Unit) {
+    fun download(activity: Activity, afterDownloadCallback: () -> Unit) {
         val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Downloading ipfs binary")
         progressDialog.setCancelable(false)
@@ -49,9 +49,9 @@ class IPFSDaemon(val context: Context) {
                 progressDialog.dismiss()
                 AlertDialog.Builder(context)
                         .setMessage(readText)
-                        .setPositiveButton("ok", null)
+                        .setPositiveButton(android.R.string.ok, null)
                         .show()
-                f()
+                afterDownloadCallback()
             }
 
         }).start()
