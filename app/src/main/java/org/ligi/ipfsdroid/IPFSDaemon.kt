@@ -16,19 +16,13 @@ class IPFSDaemon(val context: Context) {
     private fun getBinaryFile() = File(context.filesDir, "ipfsbin")
     private fun getRepoPath() = File(context.filesDir, ".ipfs_repo")
 
-    fun isReady(): Boolean {
-        return File(getRepoPath(), "version").exists()
-    }
+    fun isReady() = File(getRepoPath(), "version").exists()
 
-    private fun getBinaryHashByABI(abi: String): String? {
-        if (abi.startsWith("x86")) {
-            return "QmcF3vtdEVLAM2fVpQPQn38RWyK5sEZ8TPVtTKjcszcK6t"
-        } else if (abi.startsWith("arm")) {
-            return "Qmbq23LxgodGVQ6aLuj9qSLrxAMXkMCF3fVU5TjdTxG3Ak"
-        }
-        return null
+    private fun getBinaryHashByABI(abi: String) = when {
+        abi.startsWith("x86") -> "QmcF3vtdEVLAM2fVpQPQn38RWyK5sEZ8TPVtTKjcszcK6t"
+        abi.startsWith("arm") -> "Qmbq23LxgodGVQ6aLuj9qSLrxAMXkMCF3fVU5TjdTxG3Ak"
+        else -> null
     }
-
 
     fun download(activity: Activity, f: () -> Unit) {
         val progressDialog = ProgressDialog(context)
@@ -57,7 +51,7 @@ class IPFSDaemon(val context: Context) {
                         .setMessage(readText)
                         .setPositiveButton("ok", null)
                         .show()
-                f();
+                f()
             }
 
         }).start()
@@ -81,11 +75,11 @@ class IPFSDaemon(val context: Context) {
 
         val buffer = Okio.buffer(Okio.sink(getBinaryFile()))
 
-        var i = 0L;
+        var i = 0L
 
         while (!source.exhausted()) {
 
-            i += source.read(buffer.buffer(), 1024);
+            i += source.read(buffer.buffer(), 1024)
 
             activity.runOnUiThread {
                 val s = i / 1024
