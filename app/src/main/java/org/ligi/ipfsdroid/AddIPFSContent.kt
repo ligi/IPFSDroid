@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import io.ipfs.kotlin.IPFS
 import okio.Okio
-import org.ligi.axt.AXT
+import org.ligi.kaxt.loadImage
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
@@ -59,7 +59,7 @@ class AddIPFSContent : HashTextAndBarcodeActivity() {
         }
 
         if (inputStreamWithSource == null || !createTempFile.exists()) {
-            createTempFile = AXT.at(uri).loadImage(this)
+            createTempFile = uri.loadImage(this)
         }
 
         addWithUI {

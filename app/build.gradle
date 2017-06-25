@@ -80,7 +80,7 @@ dependencies {
     compile 'com.github.ligi:loadtoast:1.10.11'
     compile 'com.github.ligi:ipfs-api-kotlin:0.10'
 
-    compile 'org.ligi:AXT:0.36'
+    compile 'com.github.ligi:KAXT:0.17'
 
     compile 'com.github.kenglxn.QRGen:android:2.2.0'
 

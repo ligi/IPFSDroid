@@ -9,7 +9,7 @@ import android.view.View
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
-import org.ligi.axt.AXT
+import org.ligi.kaxt.startActivityFromClass
 import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject
 
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     progressDialog.dismiss()
-                    AXT.at(this@MainActivity).startCommonIntent().activityFromClass(DetailsActivity::class.java)
+                    startActivityFromClass(DetailsActivity::class.java)
                 }
             }).start()
 

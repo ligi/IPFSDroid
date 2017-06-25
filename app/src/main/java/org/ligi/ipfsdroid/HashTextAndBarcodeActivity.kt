@@ -14,7 +14,6 @@ import io.ipfs.kotlin.model.NamedHash
 import kotlinx.android.synthetic.main.activity_add.*
 import net.glxn.qrgen.android.QRCode
 import net.steamcrafted.loadtoast.LoadToast
-import org.ligi.axt.AXT
 import org.ligi.tracedroid.logging.Log
 import java.net.ConnectException
 import javax.inject.Inject
@@ -63,6 +62,7 @@ abstract class HashTextAndBarcodeActivity : AppCompatActivity() {
             try {
                 addResult = callback()
             } catch (e: ConnectException) {
+
                 addResult = null
             }
             runOnUiThread {
@@ -72,7 +72,6 @@ abstract class HashTextAndBarcodeActivity : AppCompatActivity() {
                     displayString = "could not execute ( daemon running? )" + ipfs.lastError?.Message
                 } else {
                     show.success()
-                    AXT.at(this@HashTextAndBarcodeActivity).startCommonIntent()
                     displayString = getSuccessDisplayHTML()
 
                     qr_src.setImageBitmap(QRCode.from(getSuccessURL()).bitmap())
