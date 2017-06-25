@@ -22,9 +22,9 @@ class IPFSDaemon(val context: Context) {
 
     private fun getBinaryHashByABI(abi: String): String? {
         if (abi.startsWith("x86")) {
-            return "QmZp3wZU4MsU53P8isK5rVCcEdiSig2xdSzxJSEBgAw3Kg"
+            return "QmcF3vtdEVLAM2fVpQPQn38RWyK5sEZ8TPVtTKjcszcK6t"
         } else if (abi.startsWith("arm")) {
-            return "QmRMHb4Vhv8LtYqw8RkDgkdZYxJHfrfFeQaHbNUqJYmdF2"
+            return "Qmbq23LxgodGVQ6aLuj9qSLrxAMXkMCF3fVU5TjdTxG3Ak"
         }
         return null
     }
