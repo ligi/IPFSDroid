@@ -14,6 +14,7 @@ android {
         versionCode 9
         versionName "0.9"
         archivesBaseName = "IPFSDroid-$versionName"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -53,7 +54,7 @@ dependencies {
     compile "com.chibatching.kotpref:kotpref:2.1.1"
     compile "com.chibatching.kotpref:initializer:2.1.1"
 
-    compile 'com.github.ligi:loadtoast:1.10.11'
+    compile 'net.steamcrafted:load-toast:1.0.10'
     compile 'com.github.ligi:ipfs-api-kotlin:0.11'
 
     compile 'com.github.ligi:KAXT:0.17'
