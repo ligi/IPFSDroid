@@ -44,8 +44,8 @@ abstract class HashTextAndBarcodeActivity : AppCompatActivity() {
         when (item!!.itemId) {
             R.id.copy -> {
                 val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager;
-                val clip = ClipData.newPlainText("hash", addResult?.Hash);
-                clipboardManager.primaryClip = clip;
+                val clip = ClipData.newPlainText("hash", addResult?.Hash)
+                clipboardManager.primaryClip = clip
 
                 Snackbar.make(hashInfoText, "copy " + addResult?.Hash, Snackbar.LENGTH_LONG).show()
                 return true
@@ -59,11 +59,10 @@ abstract class HashTextAndBarcodeActivity : AppCompatActivity() {
         val show = LoadToast(this).show()
 
         Thread(Runnable {
-            try {
-                addResult = callback()
+            addResult = try {
+                callback()
             } catch (e: ConnectException) {
-
-                addResult = null
+                null
             }
             runOnUiThread {
                 val displayString: String
