@@ -14,6 +14,7 @@ buildscript {
         classpath 'de.mobilej.unmock:UnMockPlugin:0.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
     }
 }
 
