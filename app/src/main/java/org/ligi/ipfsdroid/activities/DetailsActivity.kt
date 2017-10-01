@@ -1,4 +1,4 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.activities
 
 import android.annotation.TargetApi
 import android.app.Activity
@@ -14,6 +14,8 @@ import android.text.format.Formatter
 import android.view.View
 import io.ipfs.kotlin.IPFS
 import kotlinx.android.synthetic.main.activity_details.*
+import org.ligi.ipfsdroid.App
+import org.ligi.ipfsdroid.R
 import java.net.ConnectException
 import javax.inject.Inject
 
@@ -39,7 +41,7 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         addTextCommand.setOnClickListener {
-            val intent = Intent(this, AddIPFSContent::class.java)
+            val intent = Intent(this, AddIPFSContentActivity::class.java)
             intent.action = Intent.ACTION_SEND
             intent.type = "text/plain"
             intent.putExtra(android.content.Intent.EXTRA_TEXT, textEdit.text.toString())
@@ -64,7 +66,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == OPEN_FILE_READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                val targetIntent = Intent(this, AddIPFSContent::class.java)
+                val targetIntent = Intent(this, AddIPFSContentActivity::class.java)
                 targetIntent.action = Intent.ACTION_SEND
                 targetIntent.data = resultData.data
                 startActivity(targetIntent)

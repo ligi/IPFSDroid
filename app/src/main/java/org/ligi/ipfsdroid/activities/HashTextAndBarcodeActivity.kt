@@ -1,4 +1,4 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.activities
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -14,6 +14,8 @@ import io.ipfs.kotlin.model.NamedHash
 import kotlinx.android.synthetic.main.activity_add.*
 import net.glxn.qrgen.android.QRCode
 import net.steamcrafted.loadtoast.LoadToast
+import org.ligi.ipfsdroid.App
+import org.ligi.ipfsdroid.R
 import org.ligi.tracedroid.logging.Log
 import java.net.ConnectException
 import javax.inject.Inject

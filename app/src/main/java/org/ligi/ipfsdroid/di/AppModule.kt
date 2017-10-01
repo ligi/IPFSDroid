@@ -1,9 +1,10 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.di
 
 import dagger.Module
 import dagger.Provides
 import io.ipfs.kotlin.IPFS
 import okhttp3.OkHttpClient
+import org.ligi.ipfsdroid.App
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
