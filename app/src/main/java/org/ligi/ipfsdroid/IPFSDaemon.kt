@@ -5,56 +5,63 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
 import android.support.v7.app.AlertDialog
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import okio.Okio
 import java.io.File
-import java.util.concurrent.TimeUnit
+import java.io.FileNotFoundException
 
-class IPFSDaemon(val context: Context) {
+class IPFSDaemon(val androidContext: Context) {
 
-    private fun getBinaryFile() = File(context.filesDir, "ipfsbin")
-    private fun getRepoPath() = File(context.filesDir, ".ipfs_repo")
+    private fun getBinaryFile() = File(androidContext.filesDir, "ipfsbin")
+    private fun getRepoPath() = File(androidContext.filesDir, ".ipfs_repo")
 
     fun isReady() = File(getRepoPath(), "version").exists()
 
-    private fun getBinaryHashByABI(abi: String) = when {
-        abi.startsWith("x86") -> "QmcF3vtdEVLAM2fVpQPQn38RWyK5sEZ8TPVtTKjcszcK6t"
-        abi.startsWith("arm") -> "Qmbq23LxgodGVQ6aLuj9qSLrxAMXkMCF3fVU5TjdTxG3Ak"
-        else -> null
+    private fun getBinaryFileByABI(abi: String) = when {
+        abi.toLowerCase().startsWith("x86") -> "x86"
+        abi.toLowerCase().startsWith("arm") -> "arm"
+        else -> "unknown"
     }
 
-    fun download(activity: Activity, afterDownloadCallback: () -> Unit) {
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Downloading ipfs binary")
+    fun download(activity: Activity, afterDownloadCallback: () -> Unit) = async(UI) {
+
+        val progressDialog = ProgressDialog(androidContext)
+        progressDialog.setMessage("Copy ipfs binary")
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-        Thread(Runnable {
+        try {
+            async(CommonPool) {
+                downloadFile(activity)
+                getBinaryFile().setExecutable(true)
+            }.await()
 
-            downloadFile(activity, progressDialog)
-            getBinaryFile().setExecutable(true)
+            progressDialog.setMessage("Running init")
 
-            activity.runOnUiThread {
-                progressDialog.setMessage("Running init")
-            }
+            val readText = async(CommonPool) {
+                val exec = run("init")
+                exec.waitFor()
 
-            val exec = run("init")
-            exec.waitFor()
+                exec.inputStream.bufferedReader().readText() + exec.errorStream.bufferedReader().readText()
+            }.await()
 
-            var readText = exec.inputStream.bufferedReader().readText()
-            readText += exec.errorStream.bufferedReader().readText()
+            progressDialog.dismiss()
+            AlertDialog.Builder(androidContext)
+                    .setMessage(readText)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+            afterDownloadCallback()
 
-            activity.runOnUiThread {
-                progressDialog.dismiss()
-                AlertDialog.Builder(context)
-                        .setMessage(readText)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show()
-                afterDownloadCallback()
-            }
+        } catch (e: FileNotFoundException) {
+            progressDialog.dismiss()
+            AlertDialog.Builder(androidContext)
+                    .setMessage("Unsupported architecture " + Build.CPU_ABI)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
 
-        }).start()
+        }
     }
 
     fun run(cmd: String): Process {
@@ -64,31 +71,16 @@ class IPFSDaemon(val context: Context) {
         return Runtime.getRuntime().exec(command, env)
     }
 
-    private fun downloadFile(activity: Activity, progressDialog: ProgressDialog) {
-        val build = Request.Builder().url("http://ipfs.io/ipfs/" + getBinaryHashByABI(Build.CPU_ABI)).build()
+    private fun downloadFile(activity: Activity) {
 
-        val okHttpClient = OkHttpClient.Builder().readTimeout(200, TimeUnit.SECONDS).build()
-        val responseBody = okHttpClient.newCall(build).execute().body()
-        if (responseBody != null) {
-            val source = responseBody.source()
-
-            val buffer = Okio.buffer(Okio.sink(getBinaryFile()))
-
-            var i = 0L
-
-            while (!source.exhausted()) {
-
-                i += source.read(buffer.buffer(), 1024)
-
-                activity.runOnUiThread {
-                    val s = i / 1024
-                    progressDialog.setMessage("$s kB")
-                }
-            }
-
-            buffer.close()
-            responseBody.close()
+        val source = Okio.buffer(Okio.source(activity.assets.open(getBinaryFileByABI(Build.CPU_ABI))))
+        val sink = Okio.buffer(Okio.sink(getBinaryFile()))
+        while (!source.exhausted()) {
+            source.read(sink.buffer(), 1024)
         }
+        source.close()
+        sink.close()
+
     }
 
 }

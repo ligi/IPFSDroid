@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">IPFSDroid</string>
     <string name="warning_string">!! This is a playground for developers currently - not a finished product with users in mind !!</string>
-    <string name="button_download">Download+Init full node binary for more functions like add / publish / ..</string>
+    <string name="button_download">Copy and init IPFS full node binary for more functions like add / publish / ..</string>
     <string name="button_run_daemon">Run Daemon</string>
     <string name="button_stop_daemon">Stop Daemon</string>
     <string name="button_open_test_links_in_browser">Open test links in browser</string>
