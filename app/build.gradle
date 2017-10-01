@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
@@ -63,9 +64,4 @@ dependencies {
     compile 'com.github.kenglxn.QRGen:android:2.3.0'
 
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-}
-
-kapt {
-    // this is needed for the permissionsdispatcher
-    generateStubs = true
 }

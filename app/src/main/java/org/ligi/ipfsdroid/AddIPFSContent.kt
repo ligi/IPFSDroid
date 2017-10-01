@@ -21,17 +21,17 @@ class AddIPFSContent : HashTextAndBarcodeActivity() {
             if (intent.type != null && "text/plain" == intent.type) {
                 handleSendText(intent) // Handle text being sent
             } else {
-                AddIPFSContentPermissionsDispatcher.handleSendStreamWithCheck(this, intent)
+                handleSendStreamWithPermissionCheck(intent)
             }
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        AddIPFSContentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults)
+        onRequestPermissionsResult(requestCode, grantResults)
     }
 
-    internal fun handleSendText(intent: Intent) {
+    private fun handleSendText(intent: Intent) {
         val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
         if (sharedText != null) {
             addWithUI { IPFS().add.string(sharedText) }
@@ -40,11 +40,7 @@ class AddIPFSContent : HashTextAndBarcodeActivity() {
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun handleSendStream(intent: Intent) {
-        var uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-
-        if (uri == null) {
-            uri = intent.data
-        }
+        val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM) ?: intent.data
 
         val inputStreamWithSource = InputStreamProvider.fromURI(this, uri)
 
