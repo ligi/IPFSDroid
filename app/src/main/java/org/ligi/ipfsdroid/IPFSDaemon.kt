@@ -60,9 +60,8 @@ class IPFSDaemon(val context: Context) {
     fun run(cmd: String): Process {
         val env = arrayOf("IPFS_PATH=" + getRepoPath().absoluteFile)
         val command = getBinaryFile().absolutePath + " " + cmd
-        val exec = Runtime.getRuntime().exec(command, env)
 
-        return exec
+        return Runtime.getRuntime().exec(command, env)
     }
 
     private fun downloadFile(activity: Activity, progressDialog: ProgressDialog) {
