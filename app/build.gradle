@@ -5,13 +5,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "org.ligi.ipfsdroid"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 10
         versionName "0.10"
         archivesBaseName = "IPFSDroid-$versionName"
@@ -48,7 +48,7 @@ dependencies {
     compile "org.ligi:tracedroid:1.4"
     compile "com.google.dagger:dagger:$dagger_version"
 
-    compile "com.android.support:support-v4:$support_version"
+    compile "com.android.support:support-v13:$support_version"
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
 
