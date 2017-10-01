@@ -1,9 +1,9 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.activities
 
 import android.os.Bundle
 import io.ipfs.kotlin.model.NamedHash
 
-class PublishIPFSContent : HashTextAndBarcodeActivity() {
+class PublishIPFSContentActivity : HashTextAndBarcodeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

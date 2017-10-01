@@ -1,4 +1,4 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -9,6 +9,7 @@ import android.view.View
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
+import org.ligi.ipfsdroid.*
 import org.ligi.kaxt.startActivityFromClass
 import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject

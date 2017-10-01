@@ -17,17 +17,17 @@
                 android:name=".IPFSDaemonService"
                 android:exported="false"
                 />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".DetailsActivity"/>
-        <activity android:name=".PublishIPFSContent"/>
+        <activity android:name=".activities.DetailsActivity"/>
+        <activity android:name=".activities.PublishIPFSContentActivity"/>
 
-        <activity android:name=".AddIPFSContent">
+        <activity android:name=".activities.AddIPFSContentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".IPFSBrowseActivity">
+        <activity android:name=".activities.IPFSBrowseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 

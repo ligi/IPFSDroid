@@ -1,4 +1,4 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.activities
 
 import android.Manifest
 import android.content.Intent
@@ -6,13 +6,14 @@ import android.net.Uri
 import android.os.Bundle
 import io.ipfs.kotlin.IPFS
 import okio.Okio
+import org.ligi.ipfsdroid.InputStreamProvider
 import org.ligi.kaxt.loadImage
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
 
 @RuntimePermissions
-class AddIPFSContent : HashTextAndBarcodeActivity() {
+class AddIPFSContentActivity : HashTextAndBarcodeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

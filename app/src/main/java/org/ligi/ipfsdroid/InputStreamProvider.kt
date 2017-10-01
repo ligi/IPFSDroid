@@ -21,7 +21,7 @@ object InputStreamProvider {
         else -> getDefaultInputStreamForUri(uri) // eg "file"
     }
 
-    fun fromOKHttp(uri: Uri): InputStreamProvider.InputStreamWithSource? {
+    private fun fromOKHttp(uri: Uri): InputStreamProvider.InputStreamWithSource? {
         try {
             val client = OkHttpClient()
             val url = URL(uri.toString())
@@ -42,13 +42,13 @@ object InputStreamProvider {
         return null
     }
 
-    fun fromContent(ctx: Context, uri: Uri) = try {
+    private fun fromContent(ctx: Context, uri: Uri) = try {
         InputStreamProvider.InputStreamWithSource(uri.toString(), ctx.contentResolver.openInputStream(uri))
     } catch (e: FileNotFoundException) {
         null
     }
 
-    fun getDefaultInputStreamForUri(uri: Uri) = try {
+    private fun getDefaultInputStreamForUri(uri: Uri) = try {
         InputStreamProvider.InputStreamWithSource(uri.toString(), BufferedInputStream(URL(uri.toString()).openStream(), 4096))
     } catch (e: IOException) {
         null

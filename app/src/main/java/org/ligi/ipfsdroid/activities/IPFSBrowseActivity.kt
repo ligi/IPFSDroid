@@ -1,4 +1,4 @@
-package org.ligi.ipfsdroid
+package org.ligi.ipfsdroid.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.activity_browse.*
 import net.steamcrafted.loadtoast.LoadToast
+import org.ligi.ipfsdroid.IPXSResource
+import org.ligi.ipfsdroid.R
 
 class IPFSBrowseActivity : AppCompatActivity() {
 
@@ -46,7 +48,7 @@ class IPFSBrowseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.publish -> {
-                val intent = Intent(this@IPFSBrowseActivity, PublishIPFSContent::class.java)
+                val intent = Intent(this@IPFSBrowseActivity, PublishIPFSContentActivity::class.java)
                 intent.putExtra("HASH", ipxsResource!!.address)
                 startActivity(intent)
             }
