@@ -27,13 +27,13 @@ class IPFSBrowseActivity : AppCompatActivity() {
         webView.loadUrl(ipxsResource!!.ipfsioAddress())
         webView.settings.javaScriptEnabled = false
 
-        webView.setWebViewClient(object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
 
                 loadToast.success()
             }
-        })
+        }
 
         supportActionBar?.subtitle = ipxsResource!!.toString()
     }
