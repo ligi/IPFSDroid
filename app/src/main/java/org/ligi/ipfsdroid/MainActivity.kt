@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             refresh()
         })
 
-        findViewById(R.id.exampleButton)!!.setOnClickListener({
+        exampleButton.setOnClickListener({
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("http://ligi.de/ipfs/example_links2.html")
             startActivity(intent)
