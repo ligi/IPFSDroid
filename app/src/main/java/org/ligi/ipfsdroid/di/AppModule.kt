@@ -13,11 +13,10 @@ class AppModule(private val app: App) {
 
     @Singleton
     @Provides
-    internal fun proviceOkhttp(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
+    internal fun provideOkhttp() = OkHttpClient.Builder().let { builder ->
         builder.connectTimeout(1000, TimeUnit.SECONDS)
         builder.readTimeout(1000, TimeUnit.SECONDS)
-        return builder.build()
+        builder.build()
     }
 
     @Singleton
