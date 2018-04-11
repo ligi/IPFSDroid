@@ -13,8 +13,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        component = DaggerAppComponent.builder()
-                                      .appModule(new AppModule(this))
+        component = DaggerAppComponent.builder().appModule(new AppModule())
                                       .build();
         TraceDroid.init(this);
     }
