@@ -63,7 +63,7 @@ dependencies {
 
     compile 'com.github.ligi:KAXT:0.19'
 
-    compile 'com.github.kenglxn.QRGen:android:2.3.0'
+    compile 'com.github.kenglxn.QRGen:android:2.4.0'
 
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 }
