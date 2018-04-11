@@ -3,7 +3,7 @@ buildscript {
         kotlin_version = '1.2.31'
         support_version = '26.1.0'
         dagger_version = '2.15'
-        permissiondispatcher_version = '3.0.1'
+        permissiondispatcher_version = '3.1.0'
     }
 
     repositories {
