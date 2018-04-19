@@ -12,7 +12,7 @@ import okio.Okio
 import java.io.File
 import java.io.FileNotFoundException
 
-class IPFSDaemon(val androidContext: Context) {
+class IPFSDaemon(private val androidContext: Context) {
 
     private fun getBinaryFile() = File(androidContext.filesDir, "ipfsbin")
     private fun getRepoPath() = File(androidContext.filesDir, ".ipfs_repo")
