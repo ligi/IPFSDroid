@@ -21,8 +21,14 @@
             android:id="@+id/downloadIPFSButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_download"
-    />
+            android:text="@string/button_download"/>
+
+
+    <Button
+            android:id="@+id/updateIPFSButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_update"/>
 
     <Button
             android:id="@+id/daemonButton"

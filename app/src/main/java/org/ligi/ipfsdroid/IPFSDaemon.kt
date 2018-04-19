@@ -16,6 +16,7 @@ class IPFSDaemon(private val androidContext: Context) {
 
     private fun getBinaryFile() = File(androidContext.filesDir, "ipfsbin")
     private fun getRepoPath() = File(androidContext.filesDir, ".ipfs_repo")
+    fun getVersionFile() = File(androidContext.filesDir, ".ipfs_version")
 
     fun isReady() = File(getRepoPath(), "version").exists()
 
@@ -25,10 +26,12 @@ class IPFSDaemon(private val androidContext: Context) {
         else -> "unknown"
     }
 
-    fun download(activity: Activity, afterDownloadCallback: () -> Unit) = async(UI) {
+    fun download(activity: Activity,
+                 runInit: Boolean,
+                 afterDownloadCallback: () -> Unit) = async(UI) {
 
         val progressDialog = ProgressDialog(androidContext)
-        progressDialog.setMessage("Copy ipfs binary")
+        progressDialog.setMessage("Copy IPFS binary")
         progressDialog.setCancelable(false)
         progressDialog.show()
 
@@ -38,20 +41,23 @@ class IPFSDaemon(private val androidContext: Context) {
                 getBinaryFile().setExecutable(true)
             }.await()
 
-            progressDialog.setMessage("Running init")
+            if (runInit) {
+                progressDialog.setMessage("Running init")
 
-            val readText = async(CommonPool) {
-                val exec = run("init")
-                exec.waitFor()
+                val readText = async(CommonPool) {
+                    val exec = run("init")
+                    exec.waitFor()
 
-                exec.inputStream.bufferedReader().readText() + exec.errorStream.bufferedReader().readText()
-            }.await()
+                    exec.inputStream.bufferedReader().readText() + exec.errorStream.bufferedReader().readText()
+                }.await()
 
+                AlertDialog.Builder(androidContext)
+                        .setMessage(readText)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show()
+            }
             progressDialog.dismiss()
-            AlertDialog.Builder(androidContext)
-                    .setMessage(readText)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show()
+
             afterDownloadCallback()
 
         } catch (e: FileNotFoundException) {

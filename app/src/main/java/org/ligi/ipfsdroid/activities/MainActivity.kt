@@ -10,7 +10,9 @@ import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.ligi.ipfsdroid.*
+import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass
+import org.ligi.kaxtui.alert
 import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject
 
@@ -29,8 +31,20 @@ class MainActivity : AppCompatActivity() {
         title = "IPFSDroid Setup"
 
         downloadIPFSButton.setOnClickListener({
-            ipfsDaemon.download(this) {
+            ipfsDaemon.download(this, runInit = true) {
+                ipfsDaemon.getVersionFile().writeText(assets.open("version").reader().readText())
                 refresh()
+            }
+        })
+
+        updateIPFSButton.setOnClickListener({
+            if (State.isDaemonRunning) {
+                alert("Please stop daemon first")
+            } else {
+                ipfsDaemon.download(this, runInit = false) {
+                    daemonButton.callOnClick()
+                    refresh()
+                }
             }
         })
 
@@ -50,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                 while (version == null) {
                     try {
                         version = ipfs.info.version()
+                        version?.let { ipfsDaemon.getVersionFile().writeText(it.Version) }
                     } catch (ignored: Exception) {
                     }
                 }
@@ -87,8 +102,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        daemonButton.visibility = if (ipfsDaemon.isReady() && !State.isDaemonRunning) View.VISIBLE else View.GONE
-        daemonStopButton.visibility = if (ipfsDaemon.isReady() && State.isDaemonRunning) View.VISIBLE else View.GONE
-        downloadIPFSButton.visibility = if (ipfsDaemon.isReady()) View.GONE else View.VISIBLE
+        daemonButton.setVisibility((ipfsDaemon.isReady() && !State.isDaemonRunning))
+        daemonStopButton.setVisibility(ipfsDaemon.isReady() && State.isDaemonRunning)
+        downloadIPFSButton.setVisibility(!ipfsDaemon.isReady())
+        val currentVersionText = ipfsDaemon.getVersionFile().let {
+            if (it.exists()) it.readText() else ""
+        }
+        val availableVersionText = assets.open("version").reader().readText()
+        updateIPFSButton.setVisibility(ipfsDaemon.isReady()
+                && (currentVersionText.isEmpty() || (currentVersionText != availableVersionText)))
     }
 }

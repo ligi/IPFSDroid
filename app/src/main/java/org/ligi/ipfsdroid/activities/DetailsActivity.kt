@@ -106,6 +106,7 @@ class DetailsActivity : AppCompatActivity() {
             while (running) {
                 try {
                     val version = ipfs.info.version()
+
                     val bandWidth = ipfs.stats.bandWidth()
 
                     runOnUiThread {
