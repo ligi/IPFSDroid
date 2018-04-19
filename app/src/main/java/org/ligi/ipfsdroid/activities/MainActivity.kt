@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,6 +16,7 @@ import org.ligi.kaxt.startActivityFromClass
 import org.ligi.kaxtui.alert
 import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,6 +92,11 @@ class MainActivity : AppCompatActivity() {
             intent.data = Uri.parse("http://ligi.de/ipfs/example_links2.html")
             startActivity(intent)
         })
+
+
+        showLicenses.setOnClickListener {
+            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+        }
 
         TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this)
 

@@ -51,4 +51,11 @@
             android:text="@string/button_open_test_links_in_browser"
     />
 
+    <Button
+            android:id="@+id/showLicenses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_show_licenses"/>
+
+
 </LinearLayout>

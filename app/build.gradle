@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.google.gms.oss.licenses.plugin'
 
 android {
     compileSdkVersion 27
@@ -64,6 +65,8 @@ dependencies {
     implementation 'com.github.ligi:KAXTUI:0.4'
 
     implementation 'com.github.kenglxn.QRGen:android:2.4.0'
+
+    implementation 'com.google.android.gms:play-services-oss-licenses:15.0.0'
 
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 }

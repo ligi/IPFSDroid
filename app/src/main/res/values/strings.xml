@@ -6,4 +6,5 @@
     <string name="button_run_daemon">Run Daemon</string>
     <string name="button_stop_daemon">Stop Daemon</string>
     <string name="button_open_test_links_in_browser">Open test links in browser</string>
+    <string name="button_show_licenses">Show FOSS licenses</string>
 </resources>
