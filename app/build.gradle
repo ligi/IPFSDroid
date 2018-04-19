@@ -58,7 +58,7 @@ dependencies {
     implementation "com.chibatching.kotpref:initializer:2.5.0"
 
     implementation 'net.steamcrafted:load-toast:1.0.12'
-    implementation 'com.github.ligi:ipfs-api-kotlin:0.11'
+    implementation 'com.github.ligi:ipfs-api-kotlin:0.12'
 
     implementation 'com.github.ligi:KAXT:0.20'
 
