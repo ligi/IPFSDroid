@@ -6,13 +6,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "org.ligi.ipfsdroid"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 11
         versionName "0.11"
         archivesBaseName = "IPFSDroid-$versionName"
