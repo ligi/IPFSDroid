@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_version = '1.2.40'
+        kotlin_version = '1.2.41'
         support_version = '27.1.1'
         dagger_version = '2.15'
         permissiondispatcher_version = '3.2.0'
