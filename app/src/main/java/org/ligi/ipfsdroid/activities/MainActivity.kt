@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         title = "IPFSDroid Setup"
 
-        downloadIPFSButton.setOnClickListener({
+        downloadIPFSButton.setOnClickListener {
             ipfsDaemon.download(this, runInit = true) {
                 ipfsDaemon.getVersionFile().writeText(assets.open("version").reader().readText())
                 refresh()
             }
-        })
+        }
 
-        updateIPFSButton.setOnClickListener({
+        updateIPFSButton.setOnClickListener {
             if (State.isDaemonRunning) {
                 alert("Please stop daemon first")
             } else {
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
                     refresh()
                 }
             }
-        })
+        }
 
-        daemonButton.setOnClickListener({
+        daemonButton.setOnClickListener {
             startService(Intent(this, IPFSDaemonService::class.java))
 
             daemonButton.visibility = View.GONE
@@ -78,20 +78,20 @@ class MainActivity : AppCompatActivity() {
             }).start()
 
             refresh()
-        })
+        }
 
-        daemonStopButton.setOnClickListener({
+        daemonStopButton.setOnClickListener {
             stopService(Intent(this, IPFSDaemonService::class.java))
             State.isDaemonRunning = false
 
             refresh()
-        })
+        }
 
-        exampleButton.setOnClickListener({
+        exampleButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("http://ligi.de/ipfs/example_links2.html")
             startActivity(intent)
-        })
+        }
 
 
         showLicenses.setOnClickListener {
