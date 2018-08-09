@@ -26,10 +26,6 @@ android {
         }
     }
 
-    dexOptions {
-        incremental true
-    }
-
     lintOptions {
         // for OKIO
         warning 'InvalidPackage'
