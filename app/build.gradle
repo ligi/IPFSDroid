@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "org.ligi.ipfsdroid"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 11
         versionName "0.11"
@@ -48,6 +48,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
     implementation "org.ligi:tracedroid:1.4"
     implementation "com.google.dagger:dagger:$dagger_version"
 
@@ -59,16 +61,19 @@ dependencies {
     implementation "com.chibatching.kotpref:initializer:2.5.0"
 
     implementation 'net.steamcrafted:load-toast:1.0.12'
-    implementation 'com.github.ligi:ipfs-api-kotlin:0.12'
+    implementation 'com.github.ligi:ipfs-api-kotlin:0.13'
 
     implementation 'com.github.ligi:KAXT:0.20'
     implementation 'com.github.ligi:KAXTUI:0.4'
 
     implementation 'com.github.kenglxn.QRGen:android:2.4.0'
 
-    implementation 'com.google.android.gms:play-services-oss-licenses:15.0.0'
+    implementation 'com.google.android.gms:play-services-oss-licenses:16.0.0'
 
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+
+    implementation 'com.squareup.moshi:moshi:1.6.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.6.0'
 }
 
 kotlin {

@@ -22,39 +22,10 @@
             android:paddingBottom="16dp"
     />
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <android.support.design.widget.TextInputEditText
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:hint="enter text"
-                android:id="@+id/textEdit"
-                android:layout_height="wrap_content"/>
-
-        <Button
-                android:text="Add Text to IPFS"
-                android:id="@+id/addTextCommand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-
-    <Button
-            android:id="@+id/addFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="add File"
-    />
-
-    <Button
-            android:id="@+id/gcButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="repo gc"
-    />
+    <TextView
+        android:id="@+id/broadcastersTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

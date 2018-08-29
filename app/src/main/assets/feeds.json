@@ -1,0 +1,24 @@
+{
+  "broadcasters": [
+    {
+      "name": "Broadcaster 1",
+      "description": "This broadcaster is very good",
+      "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+    },
+    {
+      "name": "Broadcaster 2",
+      "description": "This broadcaster is not quite as good good",
+      "feedHash": "QmSQ76iVCLcTee8r4F4kKSwUAqw4JAuUHbbXQzo9SesykP"
+    },
+    {
+      "name": "Broadcaster 3",
+      "description": "This broadcaster is quite poor",
+      "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+    },
+    {
+      "name": "Broadcaster 4",
+      "description": "This broadcaster is very bad",
+      "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+    }
+  ]
+}
