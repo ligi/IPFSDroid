@@ -48,8 +48,6 @@ class PlayerActivity : AppCompatActivity() {
         playerAdapter.setPlaybackInfoListener(MyPlaybackInfoListener())
         initializeSeekbar()
 
-        // This is the MediaSource representing the media to be played.
-
         async {
             ipfs.get.catStream(contentHash) {
                 Log.d(TAG, "Loading content as a stream $contentHash")
@@ -57,18 +55,10 @@ class PlayerActivity : AppCompatActivity() {
                 downloadFile.copyInputStreamToFile(it)
                 Log.d(TAG, "Content downloaded")
 
-                // TODO downloading the file feels like a hack, perhaps I can use the InputStream or byteArray as a data source
+                // TODO copying the file feels like a hack, perhaps I can use the InputStream or byteArray as a data source
 
                 val myUri: Uri = Uri.fromFile(downloadFile)
-                playerAdapter.loadMedia(myUri)
-
-//                mediaPlayer = MediaPlayer().apply {
-//                    setAudioStreamType(AudioManager.STREAM_MUSIC)
-//                    setDataSource(applicationContext, myUri)
-//                    prepare()
-//                    start()
-//                    Log.d(TAG, "Audio Started")
-//                }
+                playerAdapter.loadMedia(myUri)  // TODO if I awaited this to be complete, would it free up resources from memory?
 
             }
         }

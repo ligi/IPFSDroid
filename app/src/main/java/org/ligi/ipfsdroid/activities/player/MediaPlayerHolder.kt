@@ -57,7 +57,7 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
     override fun play() {
         if(!isplaying()) {
             mediaPlayer?.start()
-            playbackInfoListener?.onStateChanged(PlaybackInfoListener.playing)
+            playbackInfoListener?.onStateChanged(PlaybackInfoListener.PLAYING)
             startUpdatingCallbackWithPosition()
         }
     }
@@ -87,7 +87,7 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
     override fun pause() {
         if(isplaying()) {
             mediaPlayer?.pause()
-            playbackInfoListener?.onStateChanged(PlaybackInfoListener.paused)
+            playbackInfoListener?.onStateChanged(PlaybackInfoListener.PAUSED)
         }
     }
 

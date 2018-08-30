@@ -8,7 +8,6 @@
     tools:context=".activities.player.PlayerActivity"
     tools:showIn="@layout/activity_player">
 
-    <!--TODO implement MediaPlayer controls-->
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/play_button"
         style="@style/Widget.AppCompat.Button.Borderless"
