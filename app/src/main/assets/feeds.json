@@ -19,6 +19,11 @@
       "name": "Broadcaster 4",
       "description": "This broadcaster is very bad",
       "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+    },
+    {
+      "name": "Broadcaster 5",
+      "description": "This broadcaster has video",
+      "feedHash": "QmUyg9amBWpAmVRN9i3JHFNncZTcSHAqt3jcZDVwMWcxNN"
     }
   ]
 }
