@@ -8,15 +8,6 @@
     tools:context=".activities.player.PlayerActivity"
     tools:showIn="@layout/activity_player">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/playerView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
-
-    </com.google.android.exoplayer2.ui.PlayerView>
+    <!--TODO implement MediaPlayer controls-->
 
 </android.support.constraint.ConstraintLayout>
