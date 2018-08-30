@@ -18,11 +18,8 @@ import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.activities.player.PlayerActivity.Companion.EXTRA_CONTENT_DESC
 import org.ligi.ipfsdroid.activities.player.PlayerActivity.Companion.EXTRA_CONTENT_HASH
 import org.ligi.ipfsdroid.model.BroadCastersList
-import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
-import java.io.File
 import java.io.IOException
-import java.io.InputStream
 import java.net.ConnectException
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
@@ -61,7 +58,6 @@ class DetailsActivity : AppCompatActivity() {
 
         async {
 
-
             // You'll also need to have a daemon running
             Log.d(TAG, "Getting file from IPFS")
 
@@ -82,22 +78,6 @@ class DetailsActivity : AppCompatActivity() {
                 startIntent.putExtra(EXTRA_CONTENT_HASH, feedsList!!.content[0].file)
                 startIntent.putExtra(EXTRA_CONTENT_DESC, feedsList!!.content[0].description)
                 this@DetailsActivity.startActivity(startIntent)
-
-//                val downloadFile = getDownloadFile(feedsList!!.content[0])
-//                ipfs.get.catStream(feedsList!!.content[0].file) {
-//                    Log.d(TAG, "Getting input streem from feedhash")
-//                    downloadFile.copyInputStreamToFile(it)
-//                    Log.d(TAG, "File download complete")
-//
-//                    // TODO do I need to download the file or would I be able to load it directly with whatever media provider I'm using?
-//
-////                    val fileInputStream: FileInputStream = it as FileInputStream
-////                    mediaPlayer = MediaPlayer().apply {
-////                        setDataSource(fileInputStream.fd)
-////                        prepare()
-////                        start()
-////                    }
-//                }
 
             }
 

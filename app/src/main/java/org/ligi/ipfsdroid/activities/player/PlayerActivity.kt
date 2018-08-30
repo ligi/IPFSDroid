@@ -1,16 +1,17 @@
 package org.ligi.ipfsdroid.activities.player
 
-import android.media.AudioManager
-import android.media.MediaPlayer
+
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.google.android.exoplayer2.*
+
+import android.widget.SeekBar
 import org.ligi.ipfsdroid.R
 
 import kotlinx.android.synthetic.main.activity_player.*
 import io.ipfs.kotlin.IPFS
+import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
 import java.io.File
@@ -23,7 +24,9 @@ class PlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var ipfs: IPFS
 
-    lateinit var player: SimpleExoPlayer
+    lateinit var playerAdapter: PlayerAdapter
+
+    var userIsSeeking: Boolean = false
 
     companion object {
         private val TAG = PlayerActivity::class.simpleName
@@ -41,6 +44,10 @@ class PlayerActivity : AppCompatActivity() {
         val contentHash = intent.getStringExtra(EXTRA_CONTENT_HASH)
         val contentDescription = intent.getStringExtra(EXTRA_CONTENT_DESC)
 
+        playerAdapter = MediaPlayerHolder(this)
+        playerAdapter.setPlaybackInfoListener(MyPlaybackInfoListener())
+        initializeSeekbar()
+
         // This is the MediaSource representing the media to be played.
 
         async {
@@ -50,23 +57,82 @@ class PlayerActivity : AppCompatActivity() {
                 downloadFile.copyInputStreamToFile(it)
                 Log.d(TAG, "Content downloaded")
 
+                // TODO downloading the file feels like a hack, perhaps I can use the InputStream or byteArray as a data source
+
                 val myUri: Uri = Uri.fromFile(downloadFile)
-                val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
-                    setAudioStreamType(AudioManager.STREAM_MUSIC)
-                    setDataSource(applicationContext, myUri)
-                    prepare()
-                    start()
-                    Log.d(TAG, "Audio Started")
-                }
+                playerAdapter.loadMedia(myUri)
+
+//                mediaPlayer = MediaPlayer().apply {
+//                    setAudioStreamType(AudioManager.STREAM_MUSIC)
+//                    setDataSource(applicationContext, myUri)
+//                    prepare()
+//                    start()
+//                    Log.d(TAG, "Audio Started")
+//                }
 
             }
+        }
+
+        play_button.setOnClickListener {
+            playerAdapter.play()
+        }
+
+        stop_button.setOnClickListener {
+            // TODO player adapter has no such method
+        }
+
+        pause_button.setOnClickListener {
+            playerAdapter.pause()
+        }
+
+    }
+
+    fun initializeSeekbar() {
+        seek_bar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+
+            var userSelectedPosition: Int = 0
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    userSelectedPosition = progress
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                userIsSeeking = true
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                userIsSeeking = false
+                playerAdapter.seekTo(userSelectedPosition)
+            }
+        })
+    }
+
+    inner class MyPlaybackInfoListener : PlaybackInfoListener() {
+
+        override fun onStateChanged(state: Int) {
+            val stateString = PlaybackInfoListener.convertStateToString(state)
+        }
+
+        override fun onDurationChanged(duration: Int) {
+            seek_bar.max = duration
+        }
+
+        override fun onPositionChanged(position: Int) {
+            if(!userIsSeeking) {
+                seek_bar.progress = position
+            }
+        }
+
+        override fun onPlaybackCompleted() {
         }
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        player.release()
+        playerAdapter.release()
     }
 
     // TODO these should really be in their own directory
