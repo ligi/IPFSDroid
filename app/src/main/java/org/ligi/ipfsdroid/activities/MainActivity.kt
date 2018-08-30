@@ -14,7 +14,6 @@ import org.ligi.ipfsdroid.*
 import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass
 import org.ligi.kaxtui.alert
-import org.ligi.tracedroid.sending.TraceDroidEmailSender
 import javax.inject.Inject
 
 
@@ -97,8 +96,6 @@ class MainActivity : AppCompatActivity() {
         showLicenses.setOnClickListener {
             startActivity(Intent(this, OssLicensesMenuActivity::class.java))
         }
-
-        TraceDroidEmailSender.sendStackTraces("ligi@ligi.de", this)
 
         refresh()
     }

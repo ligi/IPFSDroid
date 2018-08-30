@@ -14,6 +14,9 @@ import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.R
+import org.ligi.ipfsdroid.activities.player.PlayerActivity
+import org.ligi.ipfsdroid.activities.player.PlayerActivity.Companion.EXTRA_CONTENT_DESC
+import org.ligi.ipfsdroid.activities.player.PlayerActivity.Companion.EXTRA_CONTENT_HASH
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
@@ -31,9 +34,6 @@ class DetailsActivity : AppCompatActivity() {
 
     var running = true
     val OPEN_FILE_READ_REQUEST_CODE = 1
-
-    val ipfsHashForFeed = "QmX3AdrLhfbzgpY8CCibBpz8YnGQjzHVbQMQDCvmV5Xoey"
-    val ipnsNamespaceForFeed ="QmPEVsRj29xgpG44ZrCL1rRyCSVbVxAhU7z11UWsQNXY7o"
 
     val TAG = DetailsActivity::class.qualifiedName
 
@@ -76,14 +76,28 @@ class DetailsActivity : AppCompatActivity() {
                 val feedsList = feedsAdapter.fromJson(jsonString)
 
                 // TODO this could result in null pointer exception
-                ipfs.pins.add(feedsList!!.content[0].file) // TODO does this actually do what I think it does?
-                val downloadFile = getDownloadFile(feedsList!!.content[0])
-                ipfs.get.catStream(feedsList!!.content[0].file) {
-                    Log.d(TAG, "Getting input streem from feedhash")
-                    downloadFile.copyInputStreamToFile(it)
-                    Log.d(TAG, "File download complete")
+//                ipfs.pins.add(feedsList!!.content[0].file) // TODO does this actually do what I think it does?
 
-                }
+                val startIntent = Intent(this@DetailsActivity, PlayerActivity::class.java)
+                startIntent.putExtra(EXTRA_CONTENT_HASH, feedsList!!.content[0].file)
+                startIntent.putExtra(EXTRA_CONTENT_DESC, feedsList!!.content[0].description)
+                this@DetailsActivity.startActivity(startIntent)
+
+//                val downloadFile = getDownloadFile(feedsList!!.content[0])
+//                ipfs.get.catStream(feedsList!!.content[0].file) {
+//                    Log.d(TAG, "Getting input streem from feedhash")
+//                    downloadFile.copyInputStreamToFile(it)
+//                    Log.d(TAG, "File download complete")
+//
+//                    // TODO do I need to download the file or would I be able to load it directly with whatever media provider I'm using?
+//
+////                    val fileInputStream: FileInputStream = it as FileInputStream
+////                    mediaPlayer = MediaPlayer().apply {
+////                        setDataSource(fileInputStream.fd)
+////                        prepare()
+////                        start()
+////                    }
+//                }
 
             }
 
@@ -91,17 +105,8 @@ class DetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun getDownloadFile(feed: Feed): File {
-        return File(this.filesDir, feed.description)
-    }
 
-    fun File.copyInputStreamToFile(inputStream: InputStream) {
-        inputStream.use { input ->
-            this.outputStream().use { fileOut ->
-                input.copyTo(fileOut)
-            }
-        }
-    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)

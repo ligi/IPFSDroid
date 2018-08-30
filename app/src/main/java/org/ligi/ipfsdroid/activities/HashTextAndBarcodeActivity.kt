@@ -16,7 +16,6 @@ import net.glxn.qrgen.android.QRCode
 import net.steamcrafted.loadtoast.LoadToast
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.R
-import org.ligi.tracedroid.logging.Log
 import java.net.ConnectException
 import javax.inject.Inject
 
@@ -77,8 +76,6 @@ abstract class HashTextAndBarcodeActivity : AppCompatActivity() {
 
                     qr_src.setImageBitmap(QRCode.from(getSuccessURL()).bitmap())
                 }
-
-                Log.i(displayString)
 
                 hashInfoText.text = Html.fromHtml(displayString)
 
