@@ -14,6 +14,7 @@ import io.ipfs.kotlin.IPFS
 import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
+import org.ligi.ipfsdroid.repository.Repository
 import java.io.File
 import java.io.InputStream
 import javax.inject.Inject
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class PlayerActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var ipfs: IPFS
+    lateinit var repository: Repository
 
     lateinit var playerAdapter: PlayerAdapter
 
@@ -49,7 +50,7 @@ class PlayerActivity : AppCompatActivity() {
         initializeSeekbar()
 
         async {
-            ipfs.get.catStream(contentHash) {
+            repository.getInputStreamFromHash(contentHash) {
                 Log.d(TAG, "Loading content as a stream $contentHash")
                 val downloadFile = getDownloadFile(contentDescription)
                 downloadFile.copyInputStreamToFile(it)

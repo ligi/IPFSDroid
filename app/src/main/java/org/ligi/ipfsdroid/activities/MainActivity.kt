@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.ligi.ipfsdroid.*
+import org.ligi.ipfsdroid.repository.Repository
 import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass
 import org.ligi.kaxtui.alert
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val ipfsDaemon = IPFSDaemon(this)
 
     @Inject
-    lateinit var ipfs: IPFS
+    lateinit var repository: Repository // TODO test this from fresh install
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 var version: VersionInfo? = null
                 while (version == null) {
                     try {
-                        version = ipfs.info.version()
+                        version = repository.getIpfsVersion()
                         version?.let { ipfsDaemon.getVersionFile().writeText(it.Version) }
                     } catch (ignored: Exception) {
                     }

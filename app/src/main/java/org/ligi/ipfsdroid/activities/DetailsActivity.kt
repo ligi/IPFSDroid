@@ -9,7 +9,6 @@ import android.text.format.Formatter
 import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.ipfs.kotlin.IPFS
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
@@ -19,6 +18,7 @@ import org.ligi.ipfsdroid.activities.player.PlayerActivity.Companion.EXTRA_CONTE
 import org.ligi.ipfsdroid.activities.player.PlayerActivity.Companion.EXTRA_CONTENT_HASH
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.FeedsList
+import org.ligi.ipfsdroid.repository.Repository
 import java.io.IOException
 import java.net.ConnectException
 import java.nio.charset.StandardCharsets
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class DetailsActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var ipfs: IPFS
+    lateinit var repository: Repository
 
     var running = true
     val OPEN_FILE_READ_REQUEST_CODE = 1
@@ -62,7 +62,7 @@ class DetailsActivity : AppCompatActivity() {
             Log.d(TAG, "Getting file from IPFS")
 
             if(broadCaster0 != null) {
-                val jsonString = ipfs.get.cat(broadCaster0.feedHash)
+                val jsonString = repository.getStringByHash(broadCaster0.feedHash)
                 Log.d(TAG, jsonString)
                 runOnUiThread {
                     broadcastersTextView.text = jsonString
@@ -117,9 +117,9 @@ class DetailsActivity : AppCompatActivity() {
         Thread(Runnable {
             while (running) {
                 try {
-                    val version = ipfs.info.version()
+                    val version = repository.getIpfsVersion()
 
-                    val bandWidth = ipfs.stats.bandWidth()
+                    val bandWidth = repository.getBandWidth()
 
                     runOnUiThread {
                         versionTextView.text = "Version: ${version?.Version} \nRepo: ${version?.Repo}"
