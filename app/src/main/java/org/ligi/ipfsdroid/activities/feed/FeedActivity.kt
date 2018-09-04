@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_feed.*
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.R
@@ -40,7 +39,6 @@ class FeedActivity : AppCompatActivity() {
 
     private fun updateFeedView(data: FeedsList?) {
         data?.let {
-            Log.d(TAG, "Got the feedlist: ${it.name}")
             feedRecyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
             feedRecyclerView.adapter = FeedsRecyclerAdapter(it.content)
         }

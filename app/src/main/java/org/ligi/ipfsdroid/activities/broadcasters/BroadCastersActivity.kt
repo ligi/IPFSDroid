@@ -5,17 +5,14 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.text.format.Formatter
 import kotlinx.android.synthetic.main.activity_broadcasters.*
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.activities.AddIPFSContentActivity
 import org.ligi.ipfsdroid.model.Broadcaster
 import org.ligi.ipfsdroid.repository.Repository
-import java.net.ConnectException
 import javax.inject.Inject
 
 class BroadCastersActivity : AppCompatActivity() {
@@ -23,7 +20,6 @@ class BroadCastersActivity : AppCompatActivity() {
     @Inject
     lateinit var repository: Repository
 
-    var running = true
     val OPEN_FILE_READ_REQUEST_CODE = 1
 
     val TAG = BroadCastersActivity::class.qualifiedName
@@ -60,50 +56,5 @@ class BroadCastersActivity : AppCompatActivity() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        startInfoRefresh()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        running = false
-    }
-
-    fun Long.formatSizeForHuman() = Formatter.formatFileSize(baseContext, this)
-
-    // TODO remove this stuff
-    private fun startInfoRefresh() {
-        running = true
-        Thread(Runnable {
-            while (running) {
-                try {
-                    val version = repository.getIpfsVersion()
-
-                    val bandWidth = repository.getBandWidth()
-
-                    runOnUiThread {
-                        versionTextView.text = "Version: ${version?.Version} \nRepo: ${version?.Repo}"
-
-                        bandWidthTextView.text = if (bandWidth != null) {
-                            "TotlalIn: ${bandWidth.TotalIn.toLong().formatSizeForHuman()}\n" +
-                                    "TotalOut: ${bandWidth.TotalOut.toLong().formatSizeForHuman()}\n" +
-                                    "RateIn: ${bandWidth.RateIn.toLong().formatSizeForHuman()}/s\n" +
-                                    "RateOut: ${bandWidth.RateOut.toLong().formatSizeForHuman()}/s"
-                        } else {
-                            " could not get information"
-                        }
-                    }
-                } catch (e: ConnectException) {
-                    runOnUiThread {
-                        finish()
-                    }
-                }
-                SystemClock.sleep(1000)
-            }
-        }).start()
-    }
-
 
 }
