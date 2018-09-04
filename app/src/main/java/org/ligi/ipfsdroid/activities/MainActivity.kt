@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val ipfsDaemon = IPFSDaemon(this)
 
     @Inject
-    lateinit var repository: Repository // TODO test this from fresh install
+    lateinit var repository: Repository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,17 +85,6 @@ class MainActivity : AppCompatActivity() {
             State.isDaemonRunning = false
 
             refresh()
-        }
-
-        exampleButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("http://ligi.de/ipfs/example_links2.html")
-            startActivity(intent)
-        }
-
-
-        showLicenses.setOnClickListener {
-            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
         }
 
         refresh()
