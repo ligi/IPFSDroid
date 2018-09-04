@@ -10,7 +10,6 @@ import android.widget.SeekBar
 import org.ligi.ipfsdroid.R
 
 import kotlinx.android.synthetic.main.activity_player.*
-import io.ipfs.kotlin.IPFS
 import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
@@ -56,11 +55,8 @@ class PlayerActivity : AppCompatActivity() {
                 downloadFile.copyInputStreamToFile(it)
                 Log.d(TAG, "Content downloaded")
 
-                // TODO copying the file feels like a hack, perhaps I can use the InputStream or byteArray as a data source
-
                 val myUri: Uri = Uri.fromFile(downloadFile)
-                playerAdapter.loadMedia(myUri)  // TODO if I awaited this to be complete, would it free up resources from memory?
-
+                playerAdapter.loadMedia(myUri)
             }
         }
 
