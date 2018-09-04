@@ -8,4 +8,6 @@
     <string name="button_open_test_links_in_browser">Open test links in browser</string>
     <string name="button_show_licenses">Show FOSS licenses</string>
     <string name="title_activity_player">PlayerActivity</string>
+    <string name="broadcasters_title">Broadcasters</string>
+    <string name="feed_activity_name">Feed</string>
 </resources>

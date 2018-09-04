@@ -10,6 +10,7 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.ligi.ipfsdroid.*
+import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity
 import org.ligi.ipfsdroid.repository.Repository
 import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     progressDialog.dismiss()
-                    startActivityFromClass(DetailsActivity::class.java)
+                    startActivityFromClass(BroadCastersActivity::class.java)
                 }
             }).start()
 

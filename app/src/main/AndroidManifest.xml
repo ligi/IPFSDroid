@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DetailsActivity" />
+        <activity android:name=".activities.broadcasters.BroadCastersActivity" />
         <activity android:name=".activities.PublishIPFSContentActivity" />
         <activity android:name=".activities.AddIPFSContentActivity">
             <intent-filter>
@@ -111,7 +111,9 @@
         <activity
             android:name=".activities.player.PlayerActivity"
             android:label="@string/title_activity_player"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.feed.FeedActivity"
+            android:label="@string/feed_activity_name"></activity>
     </application>
 
 </manifest>
