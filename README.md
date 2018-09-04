@@ -11,7 +11,7 @@ and uses the [IPFS Kotlin API](https://github.com/ligi/ipfs-api-kotlin)
 *All files are currently test files for fictitious broadcasters with meta data for broadcasters and 
 files provided by JSON files on the network
 
-The list of broadcasters is currently as follows (hard coded inside app):
+The list of broadcasters is currently as follows (loaded from ipfs hash = QmQyiSTZ2LFzBgVSMVP1tpCcugudfMfTMwb7VBZrUJmbTq):
 ```json
 {
   "broadcasters": [
@@ -73,3 +73,5 @@ Each broadcaster has a file published on the network like this:
   ]
 }
 ```
+
+## Note: this app will only function if my daemon is running, providing the required files to the network
