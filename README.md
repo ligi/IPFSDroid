@@ -75,3 +75,9 @@ Each broadcaster has a file published on the network like this:
 ```
 
 ## Note: this app will only function if my daemon is running, providing the required files to the network
+
+## TODO 
+- [ ] Create a playlist for playing downloaded items (probably using Room)
+- [ ] Move Feeds.json to an IPNS namespace so it is mutable (potentially re-architect the whole thing so that each broadcaster's feed is at an IPNS)
+- [ ] Fix oddities with player (playback resets on rotation, seeking is weird, add position and duration text, add thumbnail which requires updates to the feeds)
+- [ ] Benchmark download speeds under various conditions of nodes on the network with the requested file
