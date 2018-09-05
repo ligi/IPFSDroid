@@ -3,8 +3,10 @@ package org.ligi.ipfsdroid.activities.player
 
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.MenuItem
 
 import android.widget.SeekBar
 import org.ligi.ipfsdroid.R
@@ -20,6 +22,9 @@ import javax.inject.Inject
 class PlayerActivity : AppCompatActivity() {
 
     // TODO right now everything that is clicked is implicitly downloaded, instead add functionality to download and add to playlist, then add a downloading indication for progress
+
+    // TODO override back behavior so that playback is stopped when back is pressed
+
     @Inject
     lateinit var repository: Repository
 
@@ -39,6 +44,7 @@ class PlayerActivity : AppCompatActivity() {
         App.component().inject(this)
         setContentView(R.layout.activity_player)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val contentHash = intent.getStringExtra(EXTRA_CONTENT_HASH)
         val contentDescription = intent.getStringExtra(EXTRA_CONTENT_DESC)
@@ -74,6 +80,18 @@ class PlayerActivity : AppCompatActivity() {
             playerAdapter.pause()
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                // Respond to the action bar's Up/Home button
+//                NavUtils.navigateUpFromSameTask(this)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun initializeSeekbar() {

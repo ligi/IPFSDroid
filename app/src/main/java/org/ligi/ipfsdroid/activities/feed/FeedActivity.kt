@@ -4,7 +4,9 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.NavUtils
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feed.*
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.R
@@ -25,6 +27,8 @@ class FeedActivity : AppCompatActivity() {
         App.component().inject(this)
         setContentView(R.layout.activity_feed)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val feedHash = intent.getStringExtra(BROADCASTER_FEED_HASH)
         val broadcasterName = intent.getStringExtra(BROADCASTER_NAME)
         title = broadcasterName
@@ -33,8 +37,23 @@ class FeedActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
         viewModel.repository = repository
-        viewModel.getFeed(feedHash).observe(this, Observer(::updateFeedView))
+        feedHash?.let {
+            viewModel.getFeed(it).observe(this, Observer(::updateFeedView))
+        }
 
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                // Respond to the action bar's Up/Home button
+//                NavUtils.navigateUpFromSameTask(this)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun updateFeedView(data: FeedsList?) {

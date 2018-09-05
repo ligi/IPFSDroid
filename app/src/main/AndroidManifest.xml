@@ -31,15 +31,18 @@
         <activity
             android:name=".activities.player.PlayerActivity"
             android:label="@string/title_activity_player"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.feed.FeedActivity"/>
 
         <activity
             android:name=".activities.feed.FeedActivity"
-            android:label="@string/feed_activity_name" />
+            android:label="@string/feed_activity_name"
+            android:parentActivityName=".activities.broadcasters.BroadCastersActivity"/>
 
         <activity
             android:name=".activities.downloads.DownloadsActivity"
-            android:label="@string/downloads_activity_name" />
+            android:label="@string/downloads_activity_name"
+            android:parentActivityName=".activities.broadcasters.BroadCastersActivity"/>
 
     </application>
 
