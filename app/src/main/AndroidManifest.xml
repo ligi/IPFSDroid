@@ -112,8 +112,11 @@
             android:name=".activities.player.PlayerActivity"
             android:label="@string/title_activity_player"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.feed.FeedActivity"
-            android:label="@string/feed_activity_name"></activity>
+        <activity
+            android:name=".activities.feed.FeedActivity"
+            android:label="@string/feed_activity_name" />
+        <activity android:name=".activities.downloads.DownloadsActivity"
+            android:label="@string/downloads_activity_name"></activity>
     </application>
 
 </manifest>

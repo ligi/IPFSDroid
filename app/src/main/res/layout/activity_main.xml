@@ -35,4 +35,10 @@
             android:text="@string/button_stop_daemon"
     />
 
+    <Button
+        android:id="@+id/downloadsButton"
+        android:text="@string/downloads_button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

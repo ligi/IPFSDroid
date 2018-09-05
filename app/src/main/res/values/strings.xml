@@ -10,4 +10,6 @@
     <string name="title_activity_player">PlayerActivity</string>
     <string name="broadcasters_title">Broadcasters</string>
     <string name="feed_activity_name">Feed</string>
+    <string name="downloads_activity_name">Downloads</string>
+    <string name="downloads_button_text">Downloads</string>
 </resources>

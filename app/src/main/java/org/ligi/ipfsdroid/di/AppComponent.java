@@ -4,6 +4,7 @@ import dagger.Component;
 import javax.inject.Singleton;
 import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity;
 import org.ligi.ipfsdroid.activities.MainActivity;
+import org.ligi.ipfsdroid.activities.downloads.DownloadsActivity;
 import org.ligi.ipfsdroid.activities.feed.FeedActivity;
 import org.ligi.ipfsdroid.activities.player.PlayerActivity;
 
@@ -17,4 +18,6 @@ public interface AppComponent {
     void inject(PlayerActivity playerActivity);
 
     void inject(FeedActivity feedActivity);
+
+    void inject(DownloadsActivity downloadsActivity);
 }

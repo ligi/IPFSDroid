@@ -13,14 +13,13 @@ import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
+import org.ligi.ipfsdroid.copyInputStreamToFile
 import org.ligi.ipfsdroid.repository.Repository
-import java.io.File
-import java.io.InputStream
 import javax.inject.Inject
-
 
 class PlayerActivity : AppCompatActivity() {
 
+    // TODO right now everything that is clicked is implicitly downloaded, instead add functionality to download and add to playlist, then add a downloading indication for progress
     @Inject
     lateinit var repository: Repository
 
@@ -43,6 +42,7 @@ class PlayerActivity : AppCompatActivity() {
 
         val contentHash = intent.getStringExtra(EXTRA_CONTENT_HASH)
         val contentDescription = intent.getStringExtra(EXTRA_CONTENT_DESC)
+        title = contentDescription
 
         playerAdapter = MediaPlayerHolder(this)
         playerAdapter.setPlaybackInfoListener(MyPlaybackInfoListener())
@@ -51,12 +51,14 @@ class PlayerActivity : AppCompatActivity() {
         async {
             repository.getInputStreamFromHash(contentHash) {
                 Log.d(TAG, "Loading content as a stream $contentHash")
-                val downloadFile = getDownloadFile(contentDescription)
+                val downloadFile = repository.getDownloadFile(contentDescription, this@PlayerActivity)
                 downloadFile.copyInputStreamToFile(it)
                 Log.d(TAG, "Content downloaded")
 
                 val myUri: Uri = Uri.fromFile(downloadFile)
                 playerAdapter.loadMedia(myUri)
+                val namedHash = repository.addFileToIPFS(downloadFile)
+                Log.d(TAG, "Added content to IPFS: $namedHash")
             }
         }
 
@@ -122,16 +124,4 @@ class PlayerActivity : AppCompatActivity() {
         playerAdapter.release()
     }
 
-    // TODO these should really be in their own directory
-    private fun getDownloadFile(description: String): File {
-        return File(this.filesDir, description)
-    }
-
-    fun File.copyInputStreamToFile(inputStream: InputStream) {
-        inputStream.use { input ->
-            this.outputStream().use { fileOut ->
-                input.copyTo(fileOut)
-            }
-        }
-    }
 }

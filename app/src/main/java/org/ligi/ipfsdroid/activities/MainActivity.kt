@@ -11,6 +11,7 @@ import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity
+import org.ligi.ipfsdroid.activities.downloads.DownloadsActivity
 import org.ligi.ipfsdroid.repository.Repository
 import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass
@@ -85,6 +86,10 @@ class MainActivity : AppCompatActivity() {
             State.isDaemonRunning = false
 
             refresh()
+        }
+
+        downloadsButton.setOnClickListener {
+            startActivity(Intent(this@MainActivity, DownloadsActivity::class.java))
         }
 
         refresh()
