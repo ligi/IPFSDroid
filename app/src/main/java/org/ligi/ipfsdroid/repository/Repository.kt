@@ -24,7 +24,7 @@ class Repository(val ipfs: IPFS) {
 
     companion object {
         const val DOWNLOADS_DIR_NAME = "downloads"
-        const val GLOBAL_FEEDS_HASH = "QmQyiSTZ2LFzBgVSMVP1tpCcugudfMfTMwb7VBZrUJmbTq"  //TODO move this to an IPNS name so it can be mutable
+        const val GLOBAL_FEEDS_HASH = "QmQyiSTZ2LFzBgVSMVP1tpCcugudfMfTMwb7VBZrUJmbTq"
     }
 
     val TAG = Repository::class.simpleName

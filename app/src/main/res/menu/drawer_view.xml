@@ -6,6 +6,9 @@
             android:id="@+id/navDownloads"
             android:title="@string/downloads"
             android:icon="@drawable/ic_file_download_black_24dp" />
+        <item
+            android:id="@+id/stopDaemon"
+            android:title="@string/button_stop_daemon" />
     </group>
 
 </menu>

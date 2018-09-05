@@ -11,7 +11,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_broadcasters.*
 import org.ligi.ipfsdroid.App
+import org.ligi.ipfsdroid.IPFSDaemonService
 import org.ligi.ipfsdroid.R
+import org.ligi.ipfsdroid.State
+import org.ligi.ipfsdroid.activities.MainActivity
 import org.ligi.ipfsdroid.activities.downloads.DownloadsActivity
 import org.ligi.ipfsdroid.model.Broadcaster
 import org.ligi.ipfsdroid.repository.Repository
@@ -48,16 +51,30 @@ class BroadCastersActivity : AppCompatActivity() {
         viewModel.getBroadCasters().observe(this, Observer(::updateBroadCastView))
 
         /*
-        Navigation drawer
+            Navigation drawer
          */
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.navDownloads -> startActivity(Intent(this@BroadCastersActivity, DownloadsActivity::class.java))
+                R.id.stopDaemon -> stopDaemonAndGoHome()
+
             }
             drawerLayout.closeDrawers()
             true
         }
 
+    }
+
+    private fun stopDaemonAndGoHome() {
+        stopService(Intent(this, IPFSDaemonService::class.java))
+        State.isDaemonRunning = false
+        startActivity(Intent(this@BroadCastersActivity, MainActivity::class.java))
+        finish()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        stopDaemonAndGoHome()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
