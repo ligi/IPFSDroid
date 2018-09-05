@@ -32,6 +32,7 @@
             android:name=".activities.player.PlayerActivity"
             android:label="@string/title_activity_player"
             android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:parentActivityName=".activities.feed.FeedActivity"/>
 
         <activity

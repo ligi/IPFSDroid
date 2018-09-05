@@ -133,7 +133,6 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             runOnUiThread {
                 textViewDuration.text = getReadableTimeFromMillis(duration.toLong())
             }
-            Log.d(TAG, "Duration = $duration")
         }
 
         override fun onPositionChanged(position: Int) {
@@ -142,7 +141,6 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                 runOnUiThread {
                     textViewCurrentPosition.text = getReadableTimeFromMillis(position.toLong())
                 }
-                Log.d(TAG, "Position updated = $position")
             }
         }
 
