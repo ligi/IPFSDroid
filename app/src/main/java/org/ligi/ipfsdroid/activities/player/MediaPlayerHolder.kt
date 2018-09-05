@@ -19,7 +19,10 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
         context = context.applicationContext  //Enforce application context
     }
 
-    val PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000
+    companion object {
+        const val PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000
+        val TAG = MediaPlayerHolder::class.simpleName
+    }
 
     private var mediaPlayer: MediaPlayer? = null
     private var playbackInfoListener: PlaybackInfoListener? = null
@@ -33,16 +36,16 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
         playbackInfoListener = listener
     }
 
-    override fun loadMedia(uri: Uri) {
+    override fun loadMedia(uri: Uri, listener: MediaPlayer.OnCompletionListener) {
         mediaPlayer = MediaPlayer().apply {
             setAudioStreamType(AudioManager.STREAM_MUSIC)
             setDataSource(context, uri)
             prepare()
             start()
-            setOnCompletionListener {
-                // TODO implement
-            }
+            setOnCompletionListener(listener)
         }
+        initializeProgressCallback()
+        startUpdatingCallbackWithPosition()
     }
 
     override fun release() {

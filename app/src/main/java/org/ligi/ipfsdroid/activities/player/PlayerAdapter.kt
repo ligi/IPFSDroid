@@ -1,5 +1,6 @@
 package org.ligi.ipfsdroid.activities.player
 
+import android.media.MediaPlayer
 import android.net.Uri
 
 /**
@@ -10,8 +11,6 @@ import android.net.Uri
 interface PlayerAdapter {
 
     fun setPlaybackInfoListener(listener: PlaybackInfoListener)
-
-    fun loadMedia(uri: Uri)
 
     fun release()
 
@@ -24,4 +23,6 @@ interface PlayerAdapter {
     fun initializeProgressCallback()
 
     fun seekTo(position: Int)
+
+    fun loadMedia(uri: Uri, listener: MediaPlayer.OnCompletionListener)
 }

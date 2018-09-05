@@ -1,9 +1,9 @@
 package org.ligi.ipfsdroid.activities.player
 
 
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
@@ -19,7 +19,7 @@ import org.ligi.ipfsdroid.copyInputStreamToFile
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     // TODO right now everything that is clicked is implicitly downloaded, instead add functionality to download and add to playlist, then add a downloading indication for progress
 
@@ -62,7 +62,7 @@ class PlayerActivity : AppCompatActivity() {
                 Log.d(TAG, "Content downloaded")
 
                 val myUri: Uri = Uri.fromFile(downloadFile)
-                playerAdapter.loadMedia(myUri)
+                playerAdapter.loadMedia(myUri, this@PlayerActivity)
                 val namedHash = repository.addFileToIPFS(downloadFile)
                 Log.d(TAG, "Added content to IPFS: $namedHash")
             }
@@ -80,6 +80,10 @@ class PlayerActivity : AppCompatActivity() {
             playerAdapter.pause()
         }
 
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        Log.d(TAG, "The end of the media has been reached")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
