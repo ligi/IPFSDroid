@@ -23,100 +23,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.broadcasters.BroadCastersActivity" />
-        <activity android:name=".activities.PublishIPFSContentActivity" />
-        <activity android:name=".activities.AddIPFSContentActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+        <activity
+            android:name=".activities.broadcasters.BroadCastersActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
-                <data android:mimeType="*/*" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activities.IPFSBrowseActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="*"
-                    android:scheme="ipfs" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="*"
-                    android:scheme="ipns" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="fs" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="ipfs.io"
-                    android:pathPattern="/ipfs/.*"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="ipfs.io"
-                    android:pathPattern="/ipns/.*"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="ipfs.io"
-                    android:pathPattern="/ipfs/.*"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="ipfs.io"
-                    android:pathPattern="/ipns/.*"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activities.player.PlayerActivity"
             android:label="@string/title_activity_player"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".activities.feed.FeedActivity"
             android:label="@string/feed_activity_name" />
-        <activity android:name=".activities.downloads.DownloadsActivity"
-            android:label="@string/downloads_activity_name"></activity>
+
+        <activity
+            android:name=".activities.downloads.DownloadsActivity"
+            android:label="@string/downloads_activity_name" />
+
     </application>
 
 </manifest>

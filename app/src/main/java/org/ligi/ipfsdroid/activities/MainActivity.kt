@@ -88,10 +88,6 @@ class MainActivity : AppCompatActivity() {
             refresh()
         }
 
-        downloadsButton.setOnClickListener {
-            startActivity(Intent(this@MainActivity, DownloadsActivity::class.java))
-        }
-
         refresh()
     }
 

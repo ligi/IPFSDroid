@@ -5,11 +5,9 @@ import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ipfs.kotlin.IPFS
-import io.ipfs.kotlin.commands.Get
 import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.coroutines.experimental.async
-import okhttp3.ResponseBody
 import org.ligi.ipfsdroid.getFile
 import org.ligi.ipfsdroid.getPins
 import org.ligi.ipfsdroid.model.BroadCastersList
