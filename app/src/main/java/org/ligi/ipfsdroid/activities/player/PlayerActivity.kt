@@ -25,8 +25,6 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     // TODO right now everything that is clicked is implicitly downloaded, instead add functionality to download and add to playlist, then add a downloading indication for progress
 
-    // TODO override back behavior so that playback is stopped when back is pressed
-
     @Inject
     lateinit var repository: Repository
 
@@ -77,7 +75,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         }
 
         stop_button.setOnClickListener {
-            // TODO player adapter has no such method
+            onBackPressed()
         }
 
         pause_button.setOnClickListener {
