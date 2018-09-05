@@ -86,8 +86,6 @@ class PlayerActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                // Respond to the action bar's Up/Home button
-//                NavUtils.navigateUpFromSameTask(this)
                 return true
             }
         }
