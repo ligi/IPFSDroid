@@ -13,4 +13,5 @@
     <string name="downloads_activity_name">Downloads</string>
     <string name="downloads_button_text">Downloads</string>
     <string name="downloads">Downloads</string>
+    <string name="zero_start_time">00:00</string>
 </resources>

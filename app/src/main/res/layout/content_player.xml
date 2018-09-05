@@ -51,9 +51,31 @@
 
     <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/seek_bar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/play_button" />
+        app:layout_constraintBottom_toTopOf="@+id/play_button"
+        app:layout_constraintEnd_toStartOf="@+id/textViewDuration"
+        app:layout_constraintStart_toEndOf="@+id/textViewCurrentPosition" />
+
+    <TextView
+        android:id="@+id/textViewCurrentPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/seek_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seek_bar"
+        android:text="@string/zero_start_time" />
+
+    <TextView
+        android:id="@+id/textViewDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/seek_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seek_bar"
+        android:text="@string/zero_start_time" />
 
 </android.support.constraint.ConstraintLayout>

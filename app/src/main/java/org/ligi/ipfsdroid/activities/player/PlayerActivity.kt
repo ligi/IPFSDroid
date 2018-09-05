@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MenuItem
 
 import android.widget.SeekBar
+import android.widget.TextView
 import org.ligi.ipfsdroid.R
 
 import kotlinx.android.synthetic.main.activity_player.*
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.copyInputStreamToFile
+import org.ligi.ipfsdroid.getReadableTimeFromMillis
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
 
@@ -31,6 +33,8 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     lateinit var playerAdapter: PlayerAdapter
 
     var userIsSeeking: Boolean = false
+
+    lateinit var durationTextView: TextView
 
     companion object {
         private val TAG = PlayerActivity::class.simpleName
@@ -80,10 +84,12 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             playerAdapter.pause()
         }
 
+        durationTextView = findViewById(R.id.textViewDuration)
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
         Log.d(TAG, "The end of the media has been reached")
+        onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -126,11 +132,19 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
         override fun onDurationChanged(duration: Int) {
             seek_bar.max = duration
+            runOnUiThread {
+                textViewDuration.text = getReadableTimeFromMillis(duration.toLong())
+            }
+            Log.d(TAG, "Duration = $duration")
         }
 
         override fun onPositionChanged(position: Int) {
             if(!userIsSeeking) {
                 seek_bar.progress = position
+                runOnUiThread {
+                    textViewCurrentPosition.text = getReadableTimeFromMillis(position.toLong())
+                }
+                Log.d(TAG, "Position updated = $position")
             }
         }
 
