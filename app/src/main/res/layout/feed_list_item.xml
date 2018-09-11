@@ -46,4 +46,14 @@
         app:srcCompat="@drawable/ic_file_download_black_24dp"
         android:contentDescription="@string/download" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/downloadAssetButton"
+        app:layout_constraintEnd_toEndOf="@+id/downloadAssetButton"
+        app:layout_constraintStart_toStartOf="@+id/downloadAssetButton"
+        app:layout_constraintTop_toTopOf="@+id/downloadAssetButton" />
+
 </android.support.constraint.ConstraintLayout>

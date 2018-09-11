@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feed.*
 import org.ligi.ipfsdroid.App
@@ -21,6 +22,10 @@ class FeedActivity : AppCompatActivity() {
 
     val TAG = FeedActivity::class.simpleName
 
+    lateinit var feedHash: String
+
+    lateinit var viewModel: FeedViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,18 +34,17 @@ class FeedActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val feedHash = intent.getStringExtra(BROADCASTER_FEED_HASH)
+        feedHash = intent.getStringExtra(BROADCASTER_FEED_HASH)
+
         val broadcasterName = intent.getStringExtra(BROADCASTER_NAME)
         title = broadcasterName
 
         feedRecyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
 
-        val viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
         viewModel.repository = repository
-        feedHash?.let {
-            viewModel.getFeed(it).observe(this, Observer<Pair<FeedsList?, List<PlaylistItem>?>>(::updateFeedView))
-        }
 
+        viewModel.getFeed(feedHash).observe(this, Observer<Pair<FeedsList?, List<PlaylistItem>?>>(::updateFeedView))
 
     }
 
@@ -54,18 +58,22 @@ class FeedActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
     private fun updateFeedView(data: Pair<FeedsList?, List<PlaylistItem>?>?) {
+        Log.d(TAG, "Updating FeedView")
         data?.let {
             val feedsList = it.first
             val playList = it.second
 
             if (feedsList != null && playList != null) {
                 feedRecyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
-                feedRecyclerView.adapter = FeedsRecyclerAdapter(feedsList.content, repository, playList)
+                feedRecyclerView.adapter = FeedsRecyclerAdapter(feedsList.content, repository, playList, ::downloadComplete)
             }
         }
+    }
 
-
+    private fun downloadComplete() {
+        viewModel.loadFeed()
     }
 
     companion object {

@@ -2,6 +2,7 @@ package org.ligi.ipfsdroid.activities.feed
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -17,7 +18,7 @@ import org.ligi.ipfsdroid.repository.Repository
 /**
  * Created by WillowTree on 8/31/18.
  */
-class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, val playlist: List<PlaylistItem>) : RecyclerView.Adapter<FeedsViewHolderBase>() {
+class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, val playlist: List<PlaylistItem>, val downloadCompleteListener: () -> Unit) : RecyclerView.Adapter<FeedsViewHolderBase>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedsViewHolderBase {
         return when (viewType) {
@@ -51,8 +52,8 @@ class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, va
                 val feedsViewHolder = holder as FeedsViewHolder
                 feedsViewHolder.downloadButton.setOnClickListener {
                     // download the item and add it to the playlist
-                    repository.insertPlaylistItem(items[position])
-                    // TODO update the recyclerview when the thing has downloaded
+                    holder.progressBar.visibility = View.VISIBLE
+                    repository.insertPlaylistItem(items[position], downloadCompleteListener)
                 }
 
                 holder.itemView.setOnClickListener {
@@ -95,6 +96,7 @@ open class FeedsViewHolderBase(view: View) : RecyclerView.ViewHolder(view) {
 
 class FeedsViewHolder(view: View) : FeedsViewHolderBase(view) {
     val downloadButton = view.downloadAssetButton
+    val progressBar = view.progressBar
 }
 
 class FeedsViewHolderInPlaylist(view: View) : FeedsViewHolderBase(view) {

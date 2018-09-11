@@ -17,6 +17,12 @@ android {
         versionName "0.11"
         archivesBaseName = "IPFSDroid-$versionName"
         vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {

@@ -57,7 +57,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             playListItems?.let {
                 if(it.isNotEmpty()) {
                     playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity)
-                    recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it)
+                    recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it, repository)
                     title = it[0].name
                 }
                 // TODO show empty playlist view

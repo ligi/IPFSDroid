@@ -68,8 +68,6 @@ class Repository(val ipfs: IPFS) {
 
     fun getFeedForBroadcaster(feedHash: String): FeedsList? {
         val jsonString = getStringByHash(feedHash)
-        Log.d(TAG, jsonString)
-
         val feedsAdapter = moshi.adapter(FeedsList::class.java)
         return feedsAdapter.fromJson(jsonString)
     }
@@ -89,15 +87,25 @@ class Repository(val ipfs: IPFS) {
         return PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAllLiveData()
     }
 
-    fun insertPlaylistItem(feedItem: Feed) {
+    fun insertPlaylistItem(feedItem: Feed, downloadComplete: () -> Unit) {
         async {
             getInputStreamFromHash(feedItem.file) {
+                Log.d(TAG, "Starting File Download")
                 val downloadFile = getDownloadFile(feedItem.description, appContext)
                 downloadFile.copyInputStreamToFile(it)
 
                 addFileToIPFS(downloadFile)  // Ensures item is pinned recursively
                 PlaylistDatabase.getInstance(appContext)?.playListDao()?.insertNewPlaylistItem(downloadFile.absolutePath, feedItem)
+                downloadComplete.invoke()
+                Log.d(TAG, "File Download Complete")
             }
+        }
+    }
+
+    fun deletePlaylistItem(playlistItem: PlaylistItem) {
+        async {
+            PlaylistDatabase.getInstance(appContext)?.playListDao()?.deleteByHash(playlistItem.hash)
+            deleteFile(File(playlistItem.fileName))
         }
     }
 
@@ -105,6 +113,7 @@ class Repository(val ipfs: IPFS) {
 
     //region Compbination methods
     fun getFeedAndPlaylist(feedHash: String): Pair<FeedsList?, List<PlaylistItem>?> {
+        Log.d(TAG, "Getting Feed and Playlist")
         val feedsList = getFeedForBroadcaster(feedHash)
         val playList = PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAll()
         return Pair(feedsList, playList)
@@ -152,5 +161,4 @@ class Repository(val ipfs: IPFS) {
         val result = ipfs.get.getFile(hash, file.absolutePath)
         Log.d(TAG, "Result from getting file $result")
     }
-
 }

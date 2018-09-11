@@ -7,11 +7,12 @@ import kotlinx.android.synthetic.main.play_list_view_item.view.*
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.inflate
 import org.ligi.ipfsdroid.repository.PlaylistItem
+import org.ligi.ipfsdroid.repository.Repository
 
 /**
  * Created by WillowTree on 9/11/18.
  */
-class PlaylistRecyclerAdapter(val items: List<PlaylistItem>) : RecyclerView.Adapter<PlaylistViewHolder>() {
+class PlaylistRecyclerAdapter(val items: List<PlaylistItem>, val repository: Repository) : RecyclerView.Adapter<PlaylistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val inflatedView = parent.inflate(R.layout.play_list_view_item, false)
@@ -25,6 +26,9 @@ class PlaylistRecyclerAdapter(val items: List<PlaylistItem>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         holder.nameText.text = items[position].name
         holder.descriptionText.text = items[position].description
+        holder.deleteButton.setOnClickListener {
+            repository.deletePlaylistItem(items[position])
+        }
 
         // TODO if the current item is 0 in the playlist, give it a different layout - alternatively, only add items 1-end to the recyclerview and put the 0 item in a static view at the top of the player
     }
@@ -34,4 +38,5 @@ class PlaylistRecyclerAdapter(val items: List<PlaylistItem>) : RecyclerView.Adap
 class PlaylistViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val nameText = view.textViewName
     val descriptionText = view.textViewDescription
+    val deleteButton = view.deletePlayListItem
 }

@@ -29,7 +29,7 @@ class FeedViewModel : ViewModel() {
         return feedAndPlaylist!!
     }
 
-    private fun loadFeed() {
+    fun loadFeed() {
         async {
             feedAndPlaylist?.postValue(repository.getFeedAndPlaylist(feedHash))
         }
