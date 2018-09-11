@@ -23,9 +23,8 @@ class PlaylistRecyclerAdapter(val items: List<PlaylistItem>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-        // TODO add title and description to playlist items
-        holder.nameText.text = items[position].hash
-        holder.descriptionText.text = items[position].fileName
+        holder.nameText.text = items[position].name
+        holder.descriptionText.text = items[position].description
 
         // TODO if the current item is 0 in the playlist, give it a different layout - alternatively, only add items 1-end to the recyclerview and put the 0 item in a static view at the top of the player
     }

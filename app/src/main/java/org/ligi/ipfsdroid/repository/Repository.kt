@@ -16,6 +16,7 @@ import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.R.id.playerProgressBar
 import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.model.BroadCastersList
+import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
 import java.io.File
 import java.io.InputStream
@@ -88,14 +89,14 @@ class Repository(val ipfs: IPFS) {
         return PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAllLiveData()
     }
 
-    fun insertPlaylistItem(hash: String, contentDescription: String) {
+    fun insertPlaylistItem(feedItem: Feed) {
         async {
-            getInputStreamFromHash(hash) {
-                val downloadFile = getDownloadFile(contentDescription, appContext)
+            getInputStreamFromHash(feedItem.file) {
+                val downloadFile = getDownloadFile(feedItem.description, appContext)
                 downloadFile.copyInputStreamToFile(it)
 
                 addFileToIPFS(downloadFile)  // Ensures item is pinned recursively
-                PlaylistDatabase.getInstance(appContext)?.playListDao()?.insertNewPlaylistItem(downloadFile.absolutePath, hash)
+                PlaylistDatabase.getInstance(appContext)?.playListDao()?.insertNewPlaylistItem(downloadFile.absolutePath, feedItem)
             }
         }
     }

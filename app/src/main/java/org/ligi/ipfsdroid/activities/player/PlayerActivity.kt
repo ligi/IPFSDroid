@@ -55,9 +55,12 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         viewModel.repository = repository
         viewModel.getPlaylist()?.observe(this, Observer { playListItems ->
             playListItems?.let {
-                playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity)
-                recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it)
-                title = it[0].hash  // TODO make this the actual name
+                if(it.isNotEmpty()) {
+                    playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity)
+                    recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it)
+                    title = it[0].name
+                }
+                // TODO show empty playlist view
             }
         })
 

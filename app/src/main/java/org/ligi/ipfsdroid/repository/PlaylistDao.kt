@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Transaction
+import org.ligi.ipfsdroid.model.Feed
 
 /**
  * Created by WillowTree on 9/6/18.
@@ -13,10 +14,10 @@ import android.arch.persistence.room.Transaction
 @Dao
 interface PlaylistDao {
 
-    @Query( "SELECT * from playlist ORDER BY `index`")
+    @Query("SELECT * from playlist ORDER BY `index`")
     fun getAll(): List<PlaylistItem>
 
-    @Query( "SELECT * from playlist ORDER BY `index`")
+    @Query("SELECT * from playlist ORDER BY `index`")
     fun getAllLiveData(): LiveData<List<PlaylistItem>>
 
     @Insert(onConflict = REPLACE)
@@ -40,7 +41,7 @@ interface PlaylistDao {
     fun insertPlayListItem(playlistItem: PlaylistItem, targetIndex: Int) {
 
         val allItems = getAll()
-        if(targetIndex < allItems.size) {
+        if (targetIndex < allItems.size) {
             when (targetIndex) {
                 -1 -> playlistItem.index = allItems.size.toDouble() + 1
                 0 -> playlistItem.index = (0 + allItems[0].index) / 2
@@ -51,9 +52,14 @@ interface PlaylistDao {
     }
 
     @Transaction
-    fun insertNewPlaylistItem(filename: String, hash: String) {
-        val allItems = getAll()
-        val playlistItem = PlaylistItem(id = null, fileName = filename, hash = hash, bookmark = 0L, index = 0.0)
+    fun insertNewPlaylistItem(filename: String, feedItem: Feed) {
+        val playlistItem = PlaylistItem(id = null,
+                fileName = filename,
+                hash = feedItem.file,
+                bookmark = 0L,
+                index = 0.0,
+                name = feedItem.name,
+                description = feedItem.description)
         insertPlayListItem(playlistItem, -1)
     }
 }

@@ -51,7 +51,7 @@ class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, va
                 val feedsViewHolder = holder as FeedsViewHolder
                 feedsViewHolder.downloadButton.setOnClickListener {
                     // download the item and add it to the playlist
-                    repository.insertPlaylistItem(items[position].file, items[position].description)
+                    repository.insertPlaylistItem(items[position])
                     // TODO update the recyclerview when the thing has downloaded
                 }
 
