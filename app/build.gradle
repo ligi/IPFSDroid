@@ -56,8 +56,7 @@ dependencies {
 
     // Room components
     implementation "android.arch.persistence.room:runtime:$roomVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
-    androidTestImplementation "android.arch.persistence.room:testing:$roomVersion"
+    kapt "android.arch.persistence.room:compiler:$roomVersion"
 
 
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

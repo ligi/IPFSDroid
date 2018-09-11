@@ -1,26 +1,30 @@
 package org.ligi.ipfsdroid.repository
 
+import android.arch.lifecycle.LiveData
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.view.View
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
+import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
-import org.ligi.ipfsdroid.getFile
-import org.ligi.ipfsdroid.getPins
+import org.ligi.ipfsdroid.*
+import org.ligi.ipfsdroid.R.id.playerProgressBar
+import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.FeedsList
-import org.ligi.ipfsdroid.unPin
 import java.io.File
 import java.io.InputStream
+import javax.inject.Inject
 
 /**
  * Created by WillowTree on 8/31/18.
  */
 class Repository(val ipfs: IPFS) {
-
 
     companion object {
         const val DOWNLOADS_DIR_NAME = "downloads"
@@ -32,6 +36,13 @@ class Repository(val ipfs: IPFS) {
     val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
+
+    @Inject
+    lateinit var appContext: Context
+
+    init {
+        App.component().inject(this)
+    }
 
     fun getIpfsVersion(): VersionInfo? {
          return ipfs.info.version()
@@ -45,7 +56,6 @@ class Repository(val ipfs: IPFS) {
         ipfs.get.catStream(hash, handler)
 
     }
-
 
     fun getBroadCasters(): BroadCastersList? {
         // let's assume that we're getting a list of broadcasters from the web someplace and for now
@@ -72,6 +82,34 @@ class Repository(val ipfs: IPFS) {
         file.delete()
         unPinFile(file)
     }
+
+    //region Playlist methods
+    fun getPlaylist() : LiveData<List<PlaylistItem>>? {
+        return PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAllLiveData()
+    }
+
+    fun insertPlaylistItem(hash: String, contentDescription: String) {
+        async {
+            getInputStreamFromHash(hash) {
+                val downloadFile = getDownloadFile(contentDescription, appContext)
+                downloadFile.copyInputStreamToFile(it)
+
+                addFileToIPFS(downloadFile)  // Ensures item is pinned recursively
+                PlaylistDatabase.getInstance(appContext)?.playListDao()?.insertNewPlaylistItem(downloadFile.absolutePath, hash)
+            }
+        }
+    }
+
+    //endregion Playslist methods
+
+    //region Compbination methods
+    fun getFeedAndPlaylist(feedHash: String): Pair<FeedsList?, List<PlaylistItem>?> {
+        val feedsList = getFeedForBroadcaster(feedHash)
+        val playList = PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAll()
+        return Pair(feedsList, playList)
+    }
+
+    //endregion
 
     /**
      * Add a file on local storage to IPFS, functionally, this is done just to ensure that the file
