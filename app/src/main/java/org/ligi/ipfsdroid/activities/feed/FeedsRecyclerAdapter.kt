@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.feed_list_item.view.*
 import kotlinx.android.synthetic.main.feed_list_item_in_playlist.view.*
+import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.inflate
@@ -55,21 +56,15 @@ class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, va
                     holder.progressBar.visibility = View.VISIBLE
                     repository.insertPlaylistItem(items[position], downloadCompleteListener)
                 }
-
-                holder.itemView.setOnClickListener {
-                    // TODO I don't know what I want to do with this
-                }
             }
 
             IN_PLAYLIST_VIEW -> {
                 val feedsViewHolder = holder as FeedsViewHolderInPlaylist
                 feedsViewHolder.playAssetButton.setOnClickListener {
-                    // TODO start the player with this item at the top of the playlist
-                    it.context.startActivity(Intent(it.context, PlayerActivity::class.java))
-                }
-
-                feedsViewHolder.itemView.setOnClickListener {
-                    // TODO what do I want to do with this?
+                    async {
+                        repository.movePlayListItem(items[position].file, 0)
+                        it.context.startActivity(Intent(it.context, PlayerActivity::class.java))
+                    }
                 }
             }
         }

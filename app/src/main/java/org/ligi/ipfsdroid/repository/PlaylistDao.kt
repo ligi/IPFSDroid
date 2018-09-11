@@ -1,11 +1,8 @@
 package org.ligi.ipfsdroid.repository
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
+import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Transaction
 import org.ligi.ipfsdroid.model.Feed
 
 /**
@@ -13,6 +10,9 @@ import org.ligi.ipfsdroid.model.Feed
  */
 @Dao
 interface PlaylistDao {
+
+    @Query("SELECT * from playlist WHERE hash == :selectedHash")
+    fun getPlaylistItemByHash(selectedHash: String) : PlaylistItem
 
     @Query("SELECT * from playlist ORDER BY `index`")
     fun getAll(): List<PlaylistItem>
@@ -29,6 +29,17 @@ interface PlaylistDao {
     @Query("DELETE from playlist WHERE hash == :selectedHash")
     fun deleteByHash(selectedHash: String)
 
+    @Update(onConflict = REPLACE)
+    fun updatePlaylistItem(playlistItem: PlaylistItem)
+
+    @Transaction
+    fun movePlayListItemByHash(hash: String, targetIndex: Int) {
+        val playlistItem = getPlaylistItemByHash(hash)
+        playlistItem.index = getDestinationIndex(getAll(), targetIndex)
+        updatePlaylistItem(playlistItem)
+    }
+
+
     /**
      * Insert an item into the playlist at the target location
      * targetIndex = -1 means the intention is to add the item at the end of the list
@@ -39,14 +50,9 @@ interface PlaylistDao {
      */
     @Transaction
     fun insertPlayListItem(playlistItem: PlaylistItem, targetIndex: Int) {
-
-        val allItems = getAll()
-        if (targetIndex < allItems.size) {
-            when (targetIndex) {
-                -1 -> playlistItem.index = allItems.size.toDouble() + 1
-                0 -> playlistItem.index = (0 + allItems[0].index) / 2
-                else -> playlistItem.index = (allItems[targetIndex - 1].index + allItems[targetIndex + 1].index) / 2
-            }
+        val destinationIndex = getDestinationIndex(getAll(), targetIndex)
+        playlistItem.index = destinationIndex
+        if(playlistItem.index >= 0) {
             insert(playlistItem)
         }
     }

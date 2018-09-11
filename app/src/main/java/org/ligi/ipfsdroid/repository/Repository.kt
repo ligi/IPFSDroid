@@ -2,19 +2,14 @@ package org.ligi.ipfsdroid.repository
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
-import android.net.Uri
 import android.util.Log
-import android.view.View
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
-import kotlinx.android.synthetic.main.content_player.*
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.*
-import org.ligi.ipfsdroid.R.id.playerProgressBar
-import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
@@ -107,6 +102,10 @@ class Repository(val ipfs: IPFS) {
             PlaylistDatabase.getInstance(appContext)?.playListDao()?.deleteByHash(playlistItem.hash)
             deleteFile(File(playlistItem.fileName))
         }
+    }
+
+    fun movePlayListItem(hash: String, targetIndex: Int) {
+        PlaylistDatabase.getInstance(appContext)?.playListDao()?.movePlayListItemByHash(hash, targetIndex)
     }
 
     //endregion Playslist methods
