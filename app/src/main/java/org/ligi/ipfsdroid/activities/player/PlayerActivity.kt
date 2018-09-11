@@ -1,10 +1,13 @@
 package org.ligi.ipfsdroid.activities.player
 
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.MenuItem
 
@@ -14,16 +17,12 @@ import org.ligi.ipfsdroid.R
 
 import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.content_player.*
-import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.App
-import org.ligi.ipfsdroid.copyInputStreamToFile
 import org.ligi.ipfsdroid.getReadableTimeFromMillis
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
 
 class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
-
-    // TODO right now everything that is clicked is implicitly downloaded, instead add functionality to download and add to playlist, then add a downloading indication for progress
 
     @Inject
     lateinit var repository: Repository
@@ -36,8 +35,6 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     companion object {
         private val TAG = PlayerActivity::class.simpleName
-        val EXTRA_CONTENT_HASH = "content_hash"
-        val EXTRA_CONTENT_DESC = "content_description"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,27 +45,22 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val contentHash = intent.getStringExtra(EXTRA_CONTENT_HASH)
-        val contentDescription = intent.getStringExtra(EXTRA_CONTENT_DESC)
-        title = contentDescription
-
         playerAdapter = MediaPlayerHolder(this)
         playerAdapter.setPlaybackInfoListener(MyPlaybackInfoListener())
         initializeSeekbar()
 
-        async {
-            repository.getInputStreamFromHash(contentHash) {
-                Log.d(TAG, "Loading content as a stream $contentHash")
-                val downloadFile = repository.getDownloadFile(contentDescription, this@PlayerActivity)
-                downloadFile.copyInputStreamToFile(it)
-                Log.d(TAG, "Content downloaded")
+        recyclerViewPlaylist.layoutManager = LinearLayoutManager(this)
 
-                val myUri: Uri = Uri.fromFile(downloadFile)
-                playerAdapter.loadMedia(myUri, this@PlayerActivity)
-                val namedHash = repository.addFileToIPFS(downloadFile)
-                Log.d(TAG, "Added content to IPFS: $namedHash")
+        val viewModel = ViewModelProviders.of(this).get(PlayerViewModel::class.java)
+        viewModel.repository = repository
+        viewModel.getPlaylist()?.observe(this, Observer { playListItems ->
+            playListItems?.let {
+                playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity)
+                recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it)
+                title = it[0].hash  // TODO make this the actual name
             }
-        }
+        })
+
 
         play_button.setOnClickListener {
             playerAdapter.play()
@@ -87,7 +79,8 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     override fun onCompletion(mp: MediaPlayer?) {
         Log.d(TAG, "The end of the media has been reached")
-        onBackPressed()
+        // TODO pop this item off the playlist and start playing the next one - this will require reindexing what remains
+//        onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -101,12 +94,12 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     }
 
     fun initializeSeekbar() {
-        seek_bar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+        seek_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             var userSelectedPosition: Int = 0
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if(fromUser) {
+                if (fromUser) {
                     userSelectedPosition = progress
                 }
             }
@@ -136,7 +129,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         }
 
         override fun onPositionChanged(position: Int) {
-            if(!userIsSeeking) {
+            if (!userIsSeeking) {
                 seek_bar.progress = position
                 runOnUiThread {
                     textViewCurrentPosition.text = getReadableTimeFromMillis(position.toLong())

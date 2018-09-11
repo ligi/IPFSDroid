@@ -1,5 +1,7 @@
 package org.ligi.ipfsdroid.di
 
+import android.content.Context
+import android.support.annotation.NonNull
 import dagger.Module
 import dagger.Provides
 import io.ipfs.kotlin.IPFS
@@ -9,7 +11,14 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class AppModule {
+class AppModule(val context: Context) {
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun provideContext() : Context {
+        return context
+    }
 
     @Singleton
     @Provides

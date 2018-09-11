@@ -2,16 +2,14 @@ package org.ligi.ipfsdroid.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity
-import org.ligi.ipfsdroid.activities.downloads.DownloadsActivity
+import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.repository.Repository
 import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass
@@ -86,6 +84,10 @@ class MainActivity : AppCompatActivity() {
             State.isDaemonRunning = false
 
             refresh()
+        }
+
+        startPlayerButton.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
         }
 
         refresh()

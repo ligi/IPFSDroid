@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.async
 import org.ligi.ipfsdroid.model.FeedsList
+import org.ligi.ipfsdroid.repository.PlaylistItem
 import org.ligi.ipfsdroid.repository.Repository
 
 /**
@@ -12,24 +13,25 @@ import org.ligi.ipfsdroid.repository.Repository
  */
 class FeedViewModel : ViewModel() {
 
-    private var feed: MutableLiveData<FeedsList>? = null
+    private var feedAndPlaylist: MutableLiveData<Pair<FeedsList?, List<PlaylistItem>?>>? = null
 
     lateinit var repository: Repository
 
     private lateinit var feedHash: String
 
-    fun getFeed(hash: String): LiveData<FeedsList> {
+    fun getFeed(hash: String): LiveData<Pair<FeedsList?, List<PlaylistItem>?>> {
         feedHash = hash
-        if(feed == null) {
-            feed = MutableLiveData()
+        if (feedAndPlaylist == null) {
+            feedAndPlaylist = MutableLiveData()
             loadFeed()
         }
-        return feed!!
+
+        return feedAndPlaylist!!
     }
 
     private fun loadFeed() {
         async {
-            feed?.postValue(repository.getFeedForBroadcaster(feedHash))
+            feedAndPlaylist?.postValue(repository.getFeedAndPlaylist(feedHash))
         }
     }
 }

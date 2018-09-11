@@ -4,13 +4,13 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.NavUtils
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feed.*
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.model.FeedsList
+import org.ligi.ipfsdroid.repository.PlaylistItem
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
 
@@ -38,7 +38,7 @@ class FeedActivity : AppCompatActivity() {
         val viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
         viewModel.repository = repository
         feedHash?.let {
-            viewModel.getFeed(it).observe(this, Observer(::updateFeedView))
+            viewModel.getFeed(it).observe(this, Observer<Pair<FeedsList?, List<PlaylistItem>?>>(::updateFeedView))
         }
 
 
@@ -54,11 +54,18 @@ class FeedActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateFeedView(data: FeedsList?) {
+    private fun updateFeedView(data: Pair<FeedsList?, List<PlaylistItem>?>?) {
         data?.let {
-            feedRecyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
-            feedRecyclerView.adapter = FeedsRecyclerAdapter(it.content)
+            val feedsList = it.first
+            val playList = it.second
+
+            if (feedsList != null && playList != null) {
+                feedRecyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
+                feedRecyclerView.adapter = FeedsRecyclerAdapter(feedsList.content, repository, playList)
+            }
         }
+
+
     }
 
     companion object {
