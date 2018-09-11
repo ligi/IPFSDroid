@@ -45,7 +45,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun getIpfsVersion(): VersionInfo? {
-         return ipfs.info.version()
+        return ipfs.info.version()
     }
 
     private fun getStringByHash(hash: String): String {
@@ -84,7 +84,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     //region Playlist methods
-    fun getPlaylist() : LiveData<List<PlaylistItem>>? {
+    fun getPlaylist(): LiveData<List<PlaylistItem>>? {
         return PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAllLiveData()
     }
 
