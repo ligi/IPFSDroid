@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.content_player.*
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.getReadableTimeFromMillis
+import org.ligi.ipfsdroid.repository.PlaylistItem
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
 
@@ -32,6 +33,8 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     var userIsSeeking: Boolean = false
 
     lateinit var durationTextView: TextView
+
+    var currentlyPlayingItem: PlaylistItem? = null
 
     companion object {
         private val TAG = PlayerActivity::class.simpleName
@@ -59,6 +62,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                     playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity)
                     recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it, repository)
                     title = it[0].name
+                    currentlyPlayingItem = it[0]
                 }
                 // TODO show empty playlist view
             }
@@ -82,8 +86,11 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     override fun onCompletion(mp: MediaPlayer?) {
         Log.d(TAG, "The end of the media has been reached")
-        // TODO pop this item off the playlist and start playing the next one - this will require reindexing what remains
-//        onBackPressed()
+        currentlyPlayingItem?.let {
+            repository.deletePlaylistItem(it)
+            currentlyPlayingItem = null
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
