@@ -30,7 +30,12 @@ class PlaylistRecyclerAdapter(val items: List<PlaylistItem>, val repository: Rep
             repository.deletePlaylistItem(items[position])
         }
 
-        // TODO if the current item is 0 in the playlist, give it a different layout - alternatively, only add items 1-end to the recyclerview and put the 0 item in a static view at the top of the player
+        if (position == 0) {
+            holder.itemView.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.color_accent))
+            holder.deleteButton.visibility = View.GONE
+        } else {
+            holder.itemView.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.background_floating_material_light))
+        }
     }
 
 }
