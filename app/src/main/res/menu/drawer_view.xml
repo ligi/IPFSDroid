@@ -9,6 +9,10 @@
         <item
             android:id="@+id/stopDaemon"
             android:title="@string/button_stop_daemon" />
+
+        <item android:id="@+id/player"
+            android:icon="@drawable/ic_play_arrow"
+            android:title="@string/title_activity_player"/>
     </group>
 
 </menu>
