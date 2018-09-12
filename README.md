@@ -17,28 +17,28 @@ The list of broadcasters is currently as follows (loaded from ipfs hash = QmQyiS
   "broadcasters": [
     {
       "name": "Broadcaster 1",
-      "description": "This broadcaster is very good",
-      "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+      "description": "This broadcaster has classical music",
+      "feedHash": "QmP86Ww558qNZm8MShMofHPU1HWMHKDxspN4qhbrTq4xGM"
     },
     {
       "name": "Broadcaster 2",
-      "description": "This broadcaster is not quite as good good",
-      "feedHash": "QmSQ76iVCLcTee8r4F4kKSwUAqw4JAuUHbbXQzo9SesykP"
+      "description": "This broadcaster also has classical music...",
+      "feedHash": "QmPwho9dja8YSBSarmU6mRrEyfH1YcLAzTpED75BExv1mm"
     },
     {
       "name": "Broadcaster 3",
-      "description": "This broadcaster is quite poor",
-      "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+      "description": "This broadcaster has Audio files of computer music from Wikimedia Commons",
+      "feedHash": "QmeiSQwFoeT3zEA3Q3Spvf1Cir333K8k4cMFDdQsVA5zZN"
     },
     {
       "name": "Broadcaster 4",
-      "description": "This broadcaster is very bad",
-      "feedHash": "QmeXUMmynWvHPXjwPy6UijhM3HEm28DxGLwAiHFaoPnN46"
+      "description": "This broadcaster also has Audio files of computer music from Wikimedia Commons",
+      "feedHash": "QmVvzqup4yg1TH9Hf5hjTspqtYMFtET8B2Z3utirRKrg2S"
     },
     {
       "name": "Broadcaster 5",
-      "description": "This broadcaster has video",
-      "feedHash": "QmUyg9amBWpAmVRN9i3JHFNncZTcSHAqt3jcZDVwMWcxNN"
+      "description": "This broadcaster has Big Buck Bunny Video and Audio",
+      "feedHash": "QmRzMt6Lum9fx9RHRkmg1UypLGJqGBSwBvQJFz8yNBGesg"
     }
   ]
 }
@@ -51,24 +51,28 @@ Each broadcaster has a file published on the network like this:
   "name": "Broadcaster 1",
   "content": [
     {
-      "name": "episode 1", 
-      "description": "Allegro_from_27_Pieces_for_Unaccompanied_Viola_da_Gamba.ogg",
-      "file": "Qmbkt6wzfVG4F3EuYspC1M5vti21R8ZRT7xhhM4kHoHgwM"
+      "title": "Allegro from 27 peices", 
+      "description": "Description for Allegro...",
+      "fileName": "Allegro_from_27_Pieces_for_Unaccompanied_Viola_da_Gamba.ogg",
+      "link": "Qmbkt6wzfVG4F3EuYspC1M5vti21R8ZRT7xhhM4kHoHgwM"
     },
     {
-      "name": "episode 2", 
-      "description": "Han_kommer_med_sommer.ogg",
-      "file": "QmTMgHMYxhp5xWzg6J973oZZhE88Jo4GHRuAkaZo7FX85P"
+      "title": "Hans Kommer Med Summer", 
+      "description": "Description for Hans Kommer Med Summer",
+      "fileName": "Han_kommer_med_sommer.ogg",
+      "link": "QmTMgHMYxhp5xWzg6J973oZZhE88Jo4GHRuAkaZo7FX85P"
     },
     {
-      "name": "episode 3", 
-      "description": "Her_har_jeg_stået_i_tusinde_år.ogg",
-      "file": "QmNusrCZ9zQL81qwfmKRTNAjX3HXJkNwtJQmD9aV6YP7wX"
+      "title": "Her har jeg", 
+      "description": "Description for Her har jeg",
+      "fileName": "Her_har_jeg_stået_i_tusinde_år.ogg",
+      "link": "QmNusrCZ9zQL81qwfmKRTNAjX3HXJkNwtJQmD9aV6YP7wX"
     },
     {
-      "name": "episode 4", 
-      "description": "Sonata_in_G-Major.ogg",
-      "file": "QmXK7Gc2bot8Nygmf7C3vcWzWShfVbcHMD5D3ux97n6vQk"
+      "title": "Sonata in G-Major", 
+      "description": "Description for Sonata in G-Major",
+      "fileName": "Sonata_in_G-Major.ogg",
+      "link": "QmXK7Gc2bot8Nygmf7C3vcWzWShfVbcHMD5D3ux97n6vQk"
     }
   ]
 }
@@ -77,8 +81,9 @@ Each broadcaster has a file published on the network like this:
 ## Note: this app will only function if my daemon is running, providing the required files to the network
 
 ## TODO 
-- [ ] Create a playlist for playing downloaded items (probably using Room)
+- [x] Create a playlist for playing downloaded items (probably using Room)
+- [x] Add more data to the broadcasters as there is currently a good deal of overlap
+- [ ] Add thumbnails to the items in the feeds
 - [ ] Move Feeds.json to an IPNS namespace so it is mutable (potentially re-architect the whole thing so that each broadcaster's feed is at an IPNS)
 - [x] Fix oddities with player 
-- [ ] Add thumbnails to the items in the feeds
 - [ ] Benchmark download speeds under various conditions of nodes on the network with the requested file
