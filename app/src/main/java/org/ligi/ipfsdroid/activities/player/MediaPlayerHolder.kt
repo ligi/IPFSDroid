@@ -36,11 +36,12 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
         playbackInfoListener = listener
     }
 
-    override fun loadMedia(uri: Uri, listener: MediaPlayer.OnCompletionListener) {
+    override fun loadMedia(uri: Uri, listener: MediaPlayer.OnCompletionListener, bookmark: Long) {
         mediaPlayer = MediaPlayer().apply {
             setAudioStreamType(AudioManager.STREAM_MUSIC)
             setDataSource(context, uri)
             prepare()
+            seekTo(bookmark.toInt())
             start()
             setOnCompletionListener(listener)
         }

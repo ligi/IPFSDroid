@@ -24,5 +24,5 @@ interface PlayerAdapter {
 
     fun seekTo(position: Int)
 
-    fun loadMedia(uri: Uri, listener: MediaPlayer.OnCompletionListener)
+    fun loadMedia(uri: Uri, listener: MediaPlayer.OnCompletionListener, bookmark: Long)
 }

@@ -59,7 +59,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         viewModel.getPlaylist()?.observe(this, Observer { playListItems ->
             playListItems?.let {
                 if(it.isNotEmpty()) {
-                    playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity)
+                    playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity, it[0].bookmark)
                     recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it, repository)
                     title = it[0].name
                     currentlyPlayingItem = it[0]
@@ -143,6 +143,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                 seek_bar.progress = position
                 runOnUiThread {
                     textViewCurrentPosition.text = getReadableTimeFromMillis(position.toLong())
+
                 }
             }
         }
@@ -153,8 +154,12 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         playerAdapter.release()
+        currentlyPlayingItem?.let {
+            it.bookmark = seek_bar.progress.toLong()
+            repository.updatePlaylistItem(it)
+        }
+        super.onDestroy()
     }
 
 }

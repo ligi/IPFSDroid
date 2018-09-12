@@ -108,7 +108,11 @@ class Repository(val ipfs: IPFS) {
         PlaylistDatabase.getInstance(appContext)?.playListDao()?.movePlayListItemByHash(hash, targetIndex)
     }
 
-
+    fun updatePlaylistItem(playlistItem: PlaylistItem) {
+        async {
+            PlaylistDatabase.getInstance(appContext)?.playListDao()?.updatePlaylistItem(playlistItem)
+        }
+    }
     //endregion Playslist methods
 
     //region Compbination methods
