@@ -61,11 +61,11 @@ interface PlaylistDao {
     fun insertNewPlaylistItem(filename: String, feedItem: Feed) {
         val playlistItem = PlaylistItem(id = null,
                 fileName = filename,
-                hash = feedItem.file,
+                hash = feedItem.link,
                 bookmark = 0L,
                 index = 0.0,
-                name = feedItem.name,
-                description = feedItem.description)
+                name = feedItem.title,
+                description = feedItem.fileName)
         insertPlayListItem(playlistItem, -1)
     }
 }

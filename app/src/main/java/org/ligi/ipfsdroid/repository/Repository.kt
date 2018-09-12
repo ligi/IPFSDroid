@@ -24,7 +24,7 @@ class Repository(val ipfs: IPFS) {
 
     companion object {
         const val DOWNLOADS_DIR_NAME = "downloads"
-        const val GLOBAL_FEEDS_HASH = "QmQyiSTZ2LFzBgVSMVP1tpCcugudfMfTMwb7VBZrUJmbTq"
+        const val GLOBAL_FEEDS_HASH = "QmcCmuBnd1o8NbZWWP7KESWhynCQmxkLS41q8Qk3xmoNYA"
     }
 
     val TAG = Repository::class.simpleName
@@ -84,9 +84,9 @@ class Repository(val ipfs: IPFS) {
 
     fun insertPlaylistItem(feedItem: Feed, downloadComplete: () -> Unit) {
         async {
-            getInputStreamFromHash(feedItem.file) {
+            getInputStreamFromHash(feedItem.link) {
                 Log.d(TAG, "Starting File Download")
-                val downloadFile = getDownloadFile(feedItem.description, appContext)
+                val downloadFile = getDownloadFile(feedItem.fileName, appContext)
                 downloadFile.copyInputStreamToFile(it)
 
                 addFileToIPFS(downloadFile)  // Ensures item is pinned recursively
@@ -122,7 +122,7 @@ class Repository(val ipfs: IPFS) {
     //endregion
 
     /**
-     * Add a file on local storage to IPFS, functionally, this is done just to ensure that the file
+     * Add a link on local storage to IPFS, functionally, this is done just to ensure that the link
      * is pinned and not garbage collected from local storage until it is deleted by the user.
      * Whether or not this is necessary is an open question.
      */
@@ -131,7 +131,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     /**
-     * This method unPins a file from IPFS.  Whether this pinning and unpinning is actually necessary
+     * This method unPins a link from IPFS.  Whether this pinning and unpinning is actually necessary
      * is an open question
      */
     fun unPinFile(file: File) {
@@ -146,7 +146,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     /**
-     * Get a file in the downloads directory of private storage for downloading the file for playback
+     * Get a link in the downloads directory of private storage for downloading the link for playback
      */
     fun getDownloadFile(description: String, context: Context): File {
         return File(context.getDir(DOWNLOADS_DIR_NAME, Context.MODE_PRIVATE), description)
@@ -154,11 +154,11 @@ class Repository(val ipfs: IPFS) {
 
     /**
      * This function doesn't actually work for some reason, it seems like it would be a cleaner way
-     * to copy the file and a good use of extension functions, but it is not working for whatever reason.
+     * to copy the link and a good use of extension functions, but it is not working for whatever reason.
      * Do no use.
      */
     fun getFile(file: File, hash: String, filename: String) {
         val result = ipfs.get.getFile(hash, file.absolutePath)
-        Log.d(TAG, "Result from getting file $result")
+        Log.d(TAG, "Result from getting link $result")
     }
 }

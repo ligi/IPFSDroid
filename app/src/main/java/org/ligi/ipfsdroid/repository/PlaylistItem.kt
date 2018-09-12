@@ -26,8 +26,8 @@ data class PlaylistItem(
         @ColumnInfo(name = "bookmark")
         var bookmark: Long,
 
-        @ColumnInfo(name = "description")
+        @ColumnInfo(name = "fileName")
         var description: String,
 
-        @ColumnInfo(name = "name")
+        @ColumnInfo(name = "title")
         var name: String)

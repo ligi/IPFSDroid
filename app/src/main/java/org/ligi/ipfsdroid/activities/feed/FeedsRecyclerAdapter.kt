@@ -2,7 +2,6 @@ package org.ligi.ipfsdroid.activities.feed
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -45,8 +44,8 @@ class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, va
 
     override fun onBindViewHolder(holder: FeedsViewHolderBase, position: Int) {
 
-        holder.nameText.text = items[position].name
-        holder.descriptionText.text = items[position].description
+        holder.nameText.text = items[position].title
+        holder.descriptionText.text = items[position].fileName
 
         when (holder.itemViewType) {
             STANDARD_VIEW -> {
@@ -62,7 +61,7 @@ class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, va
                 val feedsViewHolder = holder as FeedsViewHolderInPlaylist
                 feedsViewHolder.playAssetButton.setOnClickListener {
                     async {
-                        repository.movePlayListItem(items[position].file, 0)
+                        repository.movePlayListItem(items[position].link, 0)
                         it.context.startActivity(Intent(it.context, PlayerActivity::class.java))
                     }
                 }
