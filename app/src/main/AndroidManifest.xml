@@ -1,124 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.ligi.ipfsdroid">
+    package="org.ligi.ipfsdroid">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:name=".App"
-            android:theme="@style/AppTheme">
-
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <service
-                android:name=".IPFSDaemonService"
-                android:exported="false"
-                />
+            android:name=".IPFSDaemonService"
+            android:exported="false" />
+
         <activity android:name=".activities.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.DetailsActivity"/>
-        <activity android:name=".activities.PublishIPFSContentActivity"/>
+        <activity
+            android:name=".activities.broadcasters.BroadCastersActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".activities.AddIPFSContentActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="*/*"/>
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".activities.player.PlayerActivity"
+            android:label="@string/title_activity_player"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".activities.feed.FeedActivity"/>
 
-        <activity android:name=".activities.IPFSBrowseActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+        <activity
+            android:name=".activities.feed.FeedActivity"
+            android:label="@string/feed_activity_name"
+            android:parentActivityName=".activities.broadcasters.BroadCastersActivity"/>
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+        <activity
+            android:name=".activities.downloads.DownloadsActivity"
+            android:label="@string/downloads_activity_name"
+            android:parentActivityName=".activities.broadcasters.BroadCastersActivity"/>
 
-                <data
-                        android:host="*"
-                        android:scheme="ipfs"/>
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:host="*"
-                        android:scheme="ipns"/>
-            </intent-filter>
-
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:scheme="fs"/>
-            </intent-filter>
-
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:pathPattern="/ipfs/.*"
-                        android:host="ipfs.io"
-                        android:scheme="http"/>
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:pathPattern="/ipns/.*"
-                        android:host="ipfs.io"
-                        android:scheme="http"/>
-            </intent-filter>
-
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:pathPattern="/ipfs/.*"
-                        android:host="ipfs.io"
-                        android:scheme="https"/>
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:pathPattern="/ipns/.*"
-                        android:host="ipfs.io"
-                        android:scheme="https"/>
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

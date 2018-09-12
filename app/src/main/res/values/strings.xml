@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IPFSDroid</string>
+    <string name="app_name">InterPlanetaryBroadcast</string>
     <string name="warning_string">!! This is a playground for developers currently - not a finished product with users in mind !!</string>
     <string name="button_download">Copy and init IPFS full node binary for more functions like add / publish / ..</string>
     <string name="button_update">Update IPFS</string>
@@ -7,4 +7,13 @@
     <string name="button_stop_daemon">Stop Daemon</string>
     <string name="button_open_test_links_in_browser">Open test links in browser</string>
     <string name="button_show_licenses">Show FOSS licenses</string>
+    <string name="title_activity_player">Player</string>
+    <string name="broadcasters_title">Broadcasters</string>
+    <string name="feed_activity_name">Feed</string>
+    <string name="downloads_activity_name">Downloads</string>
+    <string name="downloads_button_text">Downloads</string>
+    <string name="downloads">Downloads</string>
+    <string name="zero_start_time">00:00</string>
+    <string name="download">Download Asset</string>
+    <string name="remove_item_from_playlist">Remove Item From Playlist</string>
 </resources>

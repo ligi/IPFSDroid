@@ -17,7 +17,7 @@ object InputStreamProvider {
 
     fun fromURI(context: Context, uri: Uri) = when (uri.scheme) {
         "content" -> fromContent(context, uri)
-        "http", "https" -> fromOKHttp(uri) // TODO check if SPDY should be here
+        "http", "https" -> fromOKHttp(uri)
         else -> getDefaultInputStreamForUri(uri) // eg "file"
     }
 

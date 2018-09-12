@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -73,7 +74,7 @@ class IPFSDaemon(private val androidContext: Context) {
     fun run(cmd: String): Process {
         val env = arrayOf("IPFS_PATH=" + getRepoPath().absoluteFile)
         val command = getBinaryFile().absolutePath + " " + cmd
-
+        Log.d("Daemon", "Running command: $env -- $command" )
         return Runtime.getRuntime().exec(command, env)
     }
 

@@ -4,6 +4,10 @@ buildscript {
         support_version = '27.1.1'
         dagger_version = '2.15'
         permissiondispatcher_version = '3.2.0'
+        exoplayer_version = '2.8.4'
+        lifecycle_version = '2.0.0-alpha1'
+        archVersion = "1.1.1"
+        roomVersion = "1.1.1"
     }
 
     repositories {
