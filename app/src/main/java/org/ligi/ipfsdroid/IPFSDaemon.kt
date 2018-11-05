@@ -5,9 +5,9 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
 import android.support.v7.app.AlertDialog
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import okio.Okio
 import java.io.File
 import java.io.FileNotFoundException
@@ -28,7 +28,7 @@ class IPFSDaemon(private val androidContext: Context) {
 
     fun download(activity: Activity,
                  runInit: Boolean,
-                 afterDownloadCallback: () -> Unit) = async(UI) {
+                 afterDownloadCallback: () -> Unit) = GlobalScope.async(Dispatchers.Main) {
 
         val progressDialog = ProgressDialog(androidContext)
         progressDialog.setMessage("Copy IPFS binary")
@@ -36,7 +36,7 @@ class IPFSDaemon(private val androidContext: Context) {
         progressDialog.show()
 
         try {
-            async(CommonPool) {
+            GlobalScope.async {
                 downloadFile(activity)
                 getBinaryFile().setExecutable(true)
             }.await()
@@ -44,7 +44,7 @@ class IPFSDaemon(private val androidContext: Context) {
             if (runInit) {
                 progressDialog.setMessage("Running init")
 
-                val readText = async(CommonPool) {
+                val readText = GlobalScope.async {
                     val exec = run("init")
                     exec.waitFor()
 
