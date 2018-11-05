@@ -45,7 +45,8 @@ dependencies {
     testImplementation "com.squareup.assertj:assertj-android:1.2.0"
     testImplementation "com.android.support:support-annotations:$support_version"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.ligi:tracedroid:1.4"
@@ -69,10 +70,4 @@ dependencies {
     implementation 'com.google.android.gms:play-services-oss-licenses:15.0.0'
 
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
